@@ -121,6 +121,7 @@
     </section>
     <section name="PHD" first="07">
         <module course="bd" lab="no" >HadoopOverview.ppt</module>
+        <module labdocs="Hadoop-Overview" />
         <module course="bd" lab="no" labdocs="pivotal-hd-overview" >PivotalHDArchitecture.ppt</module>
         <module course="bd" lab="GettingStartediWithHdfs" labdocs="getting-started-with-hdfs" >GettingStartedWithHDFS.ppt</module>        
     </section>
