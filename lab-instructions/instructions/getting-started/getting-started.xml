@@ -1,0 +1,613 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<chapter id="getting-started">
+  <title>Getting Started</title>
+  <section>
+    <title>Introduction</title>
+    <para>Welcome to the HAWQ Architecture &amp; Implementation course.</para>
+    <para>The lab environment in this course consists of the following:</para>
+    <itemizedlist>
+      <listitem>
+        <para>Support for Windows, Mac OS X.</para>
+      </listitem>
+      <listitem>
+        <para>Use of the <application><emphasis role="bold">Pivotal HD Single Node Virtual
+              Machine</emphasis></application> ( <emphasis role="bold">VM</emphasis> ).</para>
+      </listitem>
+      <listitem>
+        <para>The <emphasis role="bold"><application>VM</application></emphasis> will run in
+              <application><emphasis role="bold">VMware Player</emphasis></application> ( <emphasis
+            role="bold">Player</emphasis> ) on Windows or <application><emphasis role="bold">VMware
+              Fusion</emphasis></application> ( <emphasis role="bold">Fusion</emphasis> ) on Mac OS
+          X. </para>
+      </listitem>
+      <listitem>
+        <para>The <application><emphasis role="bold">VM</emphasis></application> uses the
+              <application><emphasis role="bold">CentOS 6.4 Linux</emphasis></application> operating
+          system.</para>
+      </listitem>
+      <listitem>
+        <para>You will use the <application><emphasis role="bold">PostgreSQL
+            pgAdmin3</emphasis></application> client.</para>
+      </listitem>
+      <listitem>
+        <para>You will use the <application><emphasis role="bold">PostgreSQL psql</emphasis> (
+                <application><emphasis role="bold">psql</emphasis></application> )</application>
+          command line interface.</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+  <section>
+    <title>Learning Objectives</title>
+    <para><emphasis role="bold">You will learn how to:</emphasis></para>
+    <itemizedlist>
+      <listitem>
+        <para>Install and configure the <application><emphasis role="bold"
+            >pgAdmin3</emphasis></application> client</para>
+      </listitem>
+      <listitem>
+        <para>Use the <application><emphasis role="bold">pgAdmin3</emphasis></application> client to
+          browse the <emphasis role="bold">HAWQ</emphasis> artifacts and databases</para>
+      </listitem>
+      <listitem>
+        <para>Add <emphasis role="bold">HAWQ</emphasis> segments using
+          <command>gpexpand</command></para>
+      </listitem>
+    </itemizedlist>
+    <para><emphasis role="bold">Estimated completion time: 45 minutes</emphasis></para>
+  </section>
+  <section>
+    <title>Applications And Setup</title>
+    <para>This section is specific to the Windows / Mac OS X.</para>
+    <section>
+      <title>Applications Required</title>
+      <para>You need the following applications and tools to perform all the labs exercises. These
+        all should be provided to you on a USB stick, or through your Organization's classroom setup
+        Administrator, or by the Instructor.</para>
+      <orderedlist>
+        <listitem>
+          <para>The <emphasis role="bold"><application>VM</application></emphasis> image used in
+            these exercises</para>
+          <orderedlist numeration="loweralpha">
+            <listitem>
+              <para><emphasis role="bold"
+                  ><filename>HAWQ-Architecture-1.2.1b.RELEASE_VM</filename></emphasis></para>
+            </listitem>
+          </orderedlist>
+        </listitem>
+        <listitem>
+          <para>The <emphasis role="bold"><application>pgAdmin3</application></emphasis> client
+              <orderedlist numeration="loweralpha">
+              <listitem>
+                <para><emphasis role="bold"><filename>pgAdmin3-1.20.0.zip</filename></emphasis> -
+                  Windows 7 or 8</para>
+              </listitem>
+              <listitem>
+                <para><emphasis role="bold"><filename>pgAdmin3-1.18.1.dmg</filename></emphasis> -
+                  Mac OSX</para>
+              </listitem>
+            </orderedlist></para>
+        </listitem>
+      </orderedlist>
+    </section>
+    <section>
+      <title>Setting up the HAWQ Environment</title>
+      <para>In this section you will install the tools you will need to work in the HAWQ
+        environment</para>
+      <orderedlist>
+        <listitem>
+          <para>Install the pgAdmin3 client for your local operating system ( not the VM
+              )<orderedlist numeration="loweralpha">
+              <listitem>
+                <para>Windows 7 / 8 - Right click on <emphasis role="bold"
+                      ><filename>pgAdmin3-1.18.1.zip</filename></emphasis>
+                  <orderedlist>
+                    <listitem>
+                      <para>Select 'Extract files...</para>
+                    </listitem>
+                    <listitem>
+                      <para>Extract to the Desktop</para>
+                    </listitem>
+                  </orderedlist></para>
+              </listitem>
+              <listitem>
+                <para>Mac OSX - Double click on <emphasis role="bold"
+                      ><filename>pgAdmin3-1.18.1.dmg</filename></emphasis>
+                  <orderedlist>
+                    <listitem>
+                      <para>When the installer window opens follow the installation
+                        instructions</para>
+                    </listitem>
+                    <listitem>
+                      <para>When the installation is complete drag the <emphasis role="bold"
+                            ><application>pgAdmin3</application></emphasis> icon to your Mac
+                        desktop</para>
+                    </listitem>
+                  </orderedlist></para>
+              </listitem>
+            </orderedlist></para>
+        </listitem>
+        <listitem>
+          <para>The pgAdmin3 client is pre-installed the VM and may be used if desired.</para>
+        </listitem>
+      </orderedlist>
+    </section>
+  </section>
+  <section>
+    <title id="configure_pgadmin3">Configure the <application>PostgreSQL pgAdmin3</application>
+      Client</title>
+    <para>One of the tools available to administer and query the <emphasis role="bold"
+          ><application>HAWQ</application></emphasis> database is the <emphasis role="bold"
+          ><application>pgAdmin3</application></emphasis> client. Another tool available to
+      administer and query the <emphasis role="bold"><application>HAWQ</application></emphasis>
+      database is the <emphasis role="bold"><application>psql</application></emphasis> shell. You
+      will learn about <emphasis role="bold"><application>psql</application></emphasis> in a
+      subsequent exercise.</para>
+    <section>
+      <title>Configure pgAdmin3 On Windows / Mac OS X Platforms</title>
+      <para>In this section you will configure the <emphasis role="bold"
+            ><application>pgAdmin3</application></emphasis> client on Windows / Mac OS X platforms
+        and test it. You will use the <emphasis role="bold"
+          ><application>pgAdmin3</application></emphasis> client in subsequent exercises.</para>
+      <para>Prior to configuring the <emphasis role="bold"
+          ><application>pgAdmin3</application></emphasis> client you will need to gather some
+        information about the VM environment</para>
+      <orderedlist>
+        <listitem>
+          <para>Determine the IP Address of the VM. Open a <emphasis role="bold"
+                ><application>terminal</application></emphasis> window from the VM's menu bar
+            (Applications => System Tools => Terminal) and run the <command>ifconfig</command>
+            command.
+            <programlisting>[pivhdsne:gpseg-1]$ <emphasis role="bold">ifconfig</emphasis>
+eth2      Link encap:Ethernet  HWaddr 00:0C:29:17:4C:C7  
+          <emphasis role="bold">inet addr:172.16.139.180  Bcast:172.16.139.255  Mask:255.255.255.0</emphasis>
+          inet6 addr: fe80::20c:29ff:fe17:4cc7/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:5626 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:3501 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:7917541 (7.5 MiB)  TX bytes:203522 (198.7 KiB)
+
+lo        Link encap:Local Loopback  
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:16436  Metric:1
+          RX packets:1106877 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:1106877 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:1924582964 (1.7 GiB)  TX bytes:1924582964 (1.7 GiB)
+             </programlisting></para>
+          <para>You need to find the line associated with the "inet addr" for the "ethx" (this may
+            be eth1, eth2, eth3, eth4, ...) network card. In this example the IP Address is shown
+            as:</para>
+          <para>
+            <literal>eth2: inet addr: 172.16.139.180</literal>
+          </para>
+          <para>You will need this IP address as it is required to connect the <emphasis role="bold"
+                ><application>pgAdmin3</application></emphasis> client to the PostgreSQL database
+            running on the VM. Write this IP address in your notebook for future reference.</para>
+        </listitem>
+        <listitem>
+          <para>Launch the <emphasis role="bold"><application>pgAdmin3</application></emphasis>
+            client by double clicking on the <application>pgAdmin3</application> icon on your
+            desktop.</para>
+          <figure>
+            <title>pgAdmin III Client</title>
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="images/pgAdmin-III.png"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+        </listitem>
+        <listitem>
+          <para>Click on the <literal>electrical plug</literal> icon in the upper left corner of the
+            pgAdmin III toolbar to open the <literal>New Server Registration</literal> window. </para>
+          <figure>
+            <title>New Server Registration Window</title>
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="images/new-server-registration.png"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+          <para>Populate the registration form using the following credentials: </para>
+          <para><userinput>Name: hawq</userinput>
+          </para>
+          <para><userinput>Host: IP address of your VM</userinput> (hint: this is the IP address you
+            saved from Step 1 above)</para>
+          <para><userinput>Port: 5432</userinput>
+          </para>
+          <para><userinput>Username: gpadmin</userinput>
+          </para>
+          <para><userinput>Password: gpadmin</userinput>
+          </para>
+          <para>Click OK and you will get the following error screen. </para>
+          <figure>
+            <title>Database Denied Error Message</title>
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="images/database-denied-error-message.png"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+          <para>Note the message: <literal>FATAL: no pg_hba.conf entry for host
+              “xxx.xx.xxx.x</literal>. </para>
+          <para>This is because the client is not authorized to connect to
+              <application>PostgreSQL</application> with your <literal>IP Address</literal>. You
+            need to edit the <emphasis role="bold"><filename>pg_hba.conf</filename></emphasis> file
+            to include your <literal>IP Address</literal>.</para>
+        </listitem>
+        <listitem>
+          <para>Click the "<emphasis role="bold">OK</emphasis>" button on the "<emphasis role="bold"
+              >Server denies access</emphasis>" screen (Step 2 above). Then click the "<emphasis
+              role="bold">Cancel</emphasis>" button on the resulting "<emphasis role="bold">New
+              Server Registration</emphasis>" screen (Step 3 above). You will repeat the setup of a
+            New Server in Step 8 below. In the future, since you will remember to edit the <emphasis
+              role="bold"><filename>pg_hba.conf</filename></emphasis> file before you connect with
+            the <emphasis role="bold"><application>pgAdmin3</application></emphasis> client, you
+            won't need to go through these steps twice. This was for illustrative purposes.</para>
+        </listitem>
+        <listitem>
+          <para>The <emphasis role="bold"><filename>pg_hba.conf</filename></emphasis> file resides
+            in the <envar>MASTER_DATA_DIRECTORY</envar>. </para>
+          <para>To determine the path to the <envar>MASTER_DATA_DIRECTORY</envar> you can use the
+              <application>Linux</application>
+            <command>echo</command> command.
+            <programlisting>[pivhdsne:~]$ <emphasis role="bold">echo $MASTER_DATA_DIRECTORY</emphasis>
+/data/1/hawq_master/gpseg-1         </programlisting></para>
+          <para>Change directory to <emphasis role="bold"
+                ><filename>/data/1/hawq_master/gpseg-1</filename></emphasis></para>
+          <programlisting>[pivhdsne:~]$ <emphasis role="bold">cd $MASTER_DATA_DIRECTORY</emphasis>
+[pivhdsne:gpseg-1]$</programlisting>
+          <para>Confirm that <emphasis role="bold"><filename>pg_hba.conf</filename></emphasis>
+            resides in the <envar>$MASTER_DATA_DIRECTORY</envar> using the
+              <application>Linux</application>
+            <command>ls -la</command> command
+            <programlisting>[pivhdsne:gpseg-1]$ <emphasis role="bold">ls -la</emphasis>
+total 116
+drwx------ 17 gpadmin gpadmin  4096 Dec 19 12:16 .
+drwxr-xr-x  4 gpadmin hadoop   4096 Aug 24 12:02 ..
+drwx------  7 gpadmin gpadmin  4096 Oct 26 23:32 base
+drwx------  2 gpadmin gpadmin  4096 Dec 19 12:16 global
+-rw-------  1 gpadmin gpadmin   112 Aug 24 12:01 gp_contentnum
+-r--------  1 gpadmin gpadmin   109 Aug 24 12:01 gp_dbid
+drwxr-xr-x  5 gpadmin gpadmin  4096 Aug 24 12:01 gpperfmon
+drwx------  2 gpadmin gpadmin  4096 Aug 24 12:01 pg_changetracking
+drwx------  2 gpadmin gpadmin  4096 Aug 24 12:01 pg_clog
+drwx------  2 gpadmin gpadmin  4096 Aug 24 12:01 pg_distributedlog
+drwx------  2 gpadmin gpadmin  4096 Aug 24 12:01 pg_distributedxidmap<?oxy_custom_start type="oxy_content_highlight" color="255,255,0"?>
+<emphasis role="bold">-rw-r--r--  1 gpadmin gpadmin  4001 Aug 24 12:01 pg_hba.conf<?oxy_custom_end?></emphasis>
+-rw-------  1 gpadmin gpadmin  1636 Aug 24 12:01 pg_ident.conf
+drwx------  2 gpadmin gpadmin  4096 Dec 19 12:16 pg_log
+drwx------  4 gpadmin gpadmin  4096 Aug 24 12:01 pg_multixact
+drwx------  2 gpadmin gpadmin  4096 Dec 19 12:16 pg_stat_tmp
+drwx------  2 gpadmin gpadmin  4096 Aug 24 12:01 pg_subtrans
+drwx------  2 gpadmin gpadmin  4096 Aug 24 12:01 pg_tblspc
+drwx------  2 gpadmin gpadmin  4096 Aug 24 12:01 pg_twophase
+drwx------  2 gpadmin gpadmin  4096 Dec 19 09:10 pg_utilitymodedtmredo
+-rw-------  1 gpadmin gpadmin     4 Aug 24 12:01 PG_VERSION
+drwx------  3 gpadmin gpadmin  4096 Dec 19 09:10 pg_xlog
+-rw-------  1 gpadmin gpadmin 19398 Aug 24 12:01 Postgresql.conf
+-rw-------  1 gpadmin gpadmin   166 Dec 19 12:16 postmaster.opts
+-rw-------  1 gpadmin gpadmin    54 Dec 19 12:16 postmaster.pid</programlisting></para>
+        </listitem>
+        <listitem>
+          <para>Open <emphasis role="bold"><filename>pg_hba.conf</filename></emphasis> in <emphasis
+              role="bold"><application>vi</application></emphasis> or <emphasis role="bold"
+                ><application>gedit</application></emphasis>. Add an additional host record to allow
+            your <application>pgAdmin3</application> client to connect to
+              <application>PostgreSQL</application>. The syntax for the additional host record
+            is:</para>
+          <programlisting>host   all    gpadmin    Your IP Address/32    trust</programlisting>
+          <programlisting># This file is read on server startup and when the postmaster receives
+# a SIGHUP signal.  If you edit the file on a running system, you have
+# to SIGHUP the postmaster for the changes to take effect.  You can
+# use "pg_ctl reload" to do that.
+# Put your actual configuration here
+# ----------------------------------
+#
+# If you want to allow non-local connections, you need to add more
+# "host" records.  In that case you will also need to make PostgreSQL
+# listen on a non-local interface via the listen_addresses
+# configuration parameter, or via the -i or -h command line switches.
+# CAUTION: Configuring the system for local "trust" authentication allows
+# any local user to connect as any PostgreSQLQL user, including the database
+# superuser. If you do not trust all your local users, use another
+# authentication method.
+# TYPE  DATABASE    USER        CIDR-ADDRESS          METHOD
+# "local" is for Unix domain socket connections only
+# IPv4 local connections:
+# IPv6 local connections:
+local    all         gpadmin         ident
+host     all         gpadmin         127.0.0.1/28    trust
+host     all         gpadmin         192.168.1.107/32       trust<?oxy_custom_start type="oxy_content_highlight" color="255,255,0"?>
+<emphasis role="bold">host     all         gpadmin         172.16.139.1/32  trust<?oxy_custom_end?></emphasis>
+host     all         gpadmin         ::1/128       trust
+host     all         gpadmin         fe80::250:56ff:fea0:7001/128       trust</programlisting>
+        </listitem>
+        <listitem>
+          <para>The configuration file <emphasis role="bold"
+              ><filename>pg_hba.conf</filename></emphasis> must be reloaded before you will be able
+            to connect the <emphasis role="bold"><application>pgAdmin3</application></emphasis>
+            client. You accomplish this by restarting PostgreSQL. The command to do so is:</para>
+          <programlisting>gpstop -u</programlisting>
+          <note>
+            <para><emphasis role="bold">Please Be Patient!</emphasis> While it appears that this
+              command completes in a few seconds, the services need to refresh which takes slightly
+              longer.</para>
+          </note>
+        </listitem>
+        <listitem>
+          <para>Click on the <literal>electrical plug</literal> icon in the upper left corner of the
+            pgAdmin III toolbar to open the <literal>New Server Registration</literal> window. </para>
+          <figure>
+            <title>Reconnect pgAdmin3 Client</title>
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="images/new-server-registration.png"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+          <para>Populate the registration form using the following credentials and select 'OK': </para>
+          <para><userinput>Name: hawq</userinput>
+          </para>
+          <para><userinput>Host: IP address of your VM</userinput>
+          </para>
+          <para><userinput>Port: 5432</userinput>
+          </para>
+          <para><userinput>Username: gpadmin</userinput>
+          </para>
+          <para><userinput>Password: gpadmin</userinput>
+          </para>
+          <para>You may be presented with a version warning. You may ignore this warning.</para>
+        </listitem>
+        <listitem>
+          <para>If you get any additional errors, or if you repeat the error above, then ask your
+            instructor for help. </para>
+        </listitem>
+        <listitem>
+          <para>The <emphasis role="bold"><application>pgAdmin3</application></emphasis> client is
+            now connected. In the <emphasis role="bold"><literal>Object Browser</literal></emphasis>
+            you should see your <emphasis role="bold"><literal>hawq</literal></emphasis> connection
+            to PostgreSQL. You may need to click on the right-hand arrows to expand the "<emphasis
+              role="bold">Server Groups</emphasis>" and "<emphasis role="bold">Servers
+              (1)</emphasis>" section.</para>
+          <figure>
+            <title>pgAdmin3 is Connected</title>
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="images/pgAdmin3-is-connected.png"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+        </listitem>
+        <listitem>
+          <para>Browse the HAWQ connection you just made. Double click on your
+              <application>hawq</application> instance in the <literal>Object Browser</literal>.
+            Notice that the <literal>Properties</literal> tab displays the properties of the hawq
+            connetion. Notice that there are typical database objects displayed in the Object
+            Browser.</para>
+          <figure>
+            <title>HAWQ Objects</title>
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="images/hawq-objects.png"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+        </listitem>
+        <listitem>
+          <para>Double click on <literal>Databases</literal> in the <literal>Object
+              Browser</literal>. Notice that the <literal>Properties</literal> tab displays the
+            three default PostgreSQL databases, <database>gpadmin</database>,
+              <database>postgres</database> and <database>template1</database>. In addition the
+              <database>movielens</database> database is displayed. It appears that your <emphasis
+              role="bold"><application>pgAdmin3</application></emphasis> client to PostgreSQL
+            connection is working correctly.</para>
+          <figure>
+            <title>HAWQ Databases</title>
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="images/hawq-databases.png"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+        </listitem>
+      </orderedlist>
+    </section>
+  </section>
+  <section>
+    <title>Adding <application>HAWQ</application> Segments</title>
+    <para>In this exercise you will expand the environment from one <emphasis role="bold"
+          ><application>HAWQ</application></emphasis> segment to six <emphasis role="bold"
+          ><application>HAWQ</application></emphasis> segments. Doing so will enable queries to
+      leverage the <emphasis role="bold">MPP</emphasis> capabilities of <emphasis role="bold"
+          ><application>HAWQ</application></emphasis>. </para>
+    <orderedlist>
+      <listitem>
+        <para>Four steps are necessary to increase the number of <emphasis role="bold"
+              ><application>HAWQ</application></emphasis> segments. They are: <orderedlist
+            numeration="loweralpha">
+            <listitem>
+              <para>Create an expansion input file – <emphasis role="bold"><literal>gpexpand -f
+                    new_hosts_file</literal></emphasis>.</para>
+            </listitem>
+            <listitem>
+              <para>Initialize the segments and create the expansion schema – <emphasis role="bold"
+                    ><literal>gpexpand -i input_file -D database_name</literal></emphasis></para>
+            </listitem>
+            <listitem>
+              <para>Redistribute database tables – <emphasis role="bold"><literal>gpexpand
+                    -d</literal></emphasis></para>
+            </listitem>
+            <listitem>
+              <para>Remove the expansion schema – <emphasis role="bold"><literal>gpexpand -c
+                    -s</literal></emphasis>
+              </para>
+            </listitem>
+          </orderedlist></para>
+      </listitem>
+      <listitem>
+        <para>A script to expand the number of <emphasis role="bold"
+            ><application>HAWQ</application></emphasis> segments from one ( 1 ) to six ( 6 ) has
+          been created for you.The expansion input file has already been created for you. The name
+          of the script is <literal>expand.sh</literal>. You can locate <emphasis role="bold"
+              ><literal>expand.sh</literal></emphasis> in <emphasis role="bold"
+              ><literal>/home/gpadmin/lab/01-Getting-Started/</literal></emphasis>. The expansion
+          input file and necessary support files generated in step one of the expansion process have
+          been generated for you and can be found in the same directory. Therefore the script will
+          initialize the segments and create the expansion schema, redistribute the database tables
+          and remove the expansion schema.</para>
+      </listitem>
+      <listitem>
+        <para>View <emphasis role="bold"><application>expand.sh</application></emphasis> and examine
+          the contents. Note that three steps that will be executed when the script is run.</para>
+        <programlisting># Initialize segments and create expansion schema
+gpexpand -i gpexpand_inputfile_20141213_034012 -D gpadmin -s
+# redistribute tables
+gpexpand -d 10
+# Remove the expansion schema
+gpexpand -c -s</programlisting>
+      </listitem>
+      <listitem>
+        <para>Execute <literal>expand.sh</literal> to expand the number of <emphasis role="bold"
+              ><application>HAWQ</application></emphasis> segments. To do this, you must first
+          change into the <emphasis role="bold">~gpadmin/lab/01-Getting-Started</emphasis> directory
+          using the <application>Linux</application>
+          <emphasis role="bold"><application>cd</application></emphasis> command.</para>
+        <para>NOTE: As the script terminates you will be prompted to dump the <emphasis role="bold"
+              ><literal>gpexpand.status_detail</literal></emphasis> table to a file. Respond with
+          'Y' or 'y'.</para>
+        <programlisting width="80">[pivhdsne:01_Getting_Started]$ <emphasis role="bold">./expand.sh</emphasis> 
+20150109:09:27:41:007387 gpexpand:pivhdsne:gpadmin-[INFO]:-local HAWQ Version: 'postgres (HAWQ) 4.2.0 build 1'
+20150109:09:27:41:007387 gpexpand:pivhdsne:gpadmin-[INFO]:-master HAWQ Version: 'PostgreSQL 8.2.15 
+  (Greenplum Database 4.2.0 build 1) (HAWQ 1.2.1.0 build 10335) on x86_64-unknown-linux-gnu, compiled 
+  by GCC gcc (GCC) 4.4.2 compiled on Aug  8 2014 16:31:48'
+20150109:09:27:42:007387 gpexpand:pivhdsne:gpadmin-[INFO]:-Querying gpexpand schema for current expansion state
+20150109:09:27:43:007387 gpexpand:pivhdsne:gpadmin-[INFO]:-Readying HAWQ for a new expansion
+20150109:09:27:53:007387 gpexpand:pivhdsne:gpadmin-[INFO]:-Checking database template1 for unalterable tables...
+20150109:09:27:53:007387 gpexpand:pivhdsne:gpadmin-[INFO]:-Checking database postgres for unalterable tables...
+20150109:09:27:53:007387 gpexpand:pivhdsne:gpadmin-[INFO]:-Checking database gpadmin for unalterable tables...
+20150109:09:27:53:007387 gpexpand:pivhdsne:gpadmin-[INFO]:-Checking database movielens for unalterable tables...
+20150109:09:27:53:007387 gpexpand:pivhdsne:gpadmin-[INFO]:-Syncing HAWQ extensions
+20150109:09:27:54:007387 gpexpand:pivhdsne:gpadmin-[INFO]:-The packages on pivhdsne.localdomain are consistent.
+20150109:09:27:55:007387 gpexpand:pivhdsne:gpadmin-[INFO]:-Creating segment template
+20150109:09:27:59:007387 gpexpand:pivhdsne:gpadmin-[INFO]:-Starting copy of segment dbid 2 to location 
+  /data/1/hawq_master/gpexpand_01092015_7387
+20150109:09:28:02:007387 gpexpand:pivhdsne:gpadmin-[INFO]:-Cleaning up catalog for schema only copy on 
+  destination
+20150109:09:28:02:007387 gpexpand:pivhdsne:gpadmin-[INFO]:-Copying postgresql.conf from existing segment 
+  into template
+20150109:09:28:03:007387 gpexpand:pivhdsne:gpadmin-[INFO]:-Copying pg_hba.conf from existing segment 
+  into template
+20150109:09:28:05:007387 gpexpand:pivhdsne:gpadmin-[INFO]:-Adding new segments into template pg_hba.conf
+20150109:09:28:05:007387 gpexpand:pivhdsne:gpadmin-[INFO]:-Creating schema tar file
+20150109:09:28:06:007387 gpexpand:pivhdsne:gpadmin-[INFO]:-Distributing template tar file to new hosts
+20150109:09:28:07:007387 gpexpand:pivhdsne:gpadmin-[INFO]:-Configuring new segments (primary)
+20150109:09:28:11:007387 gpexpand:pivhdsne:gpadmin-[INFO]:-Backing up pg_hba.conf file on original segments
+20150109:09:28:12:007387 gpexpand:pivhdsne:gpadmin-[INFO]:-Copying new pg_hba.conf file to original segments
+20150109:09:28:12:007387 gpexpand:pivhdsne:gpadmin-[INFO]:-Configuring original segments
+20150109:09:28:12:007387 gpexpand:pivhdsne:gpadmin-[INFO]:-Cleaning up temporary template files
+20150109:09:28:13:007387 gpexpand:pivhdsne:gpadmin-[INFO]:-Starting HAWQ in restricted mode
+20150109:09:28:28:007387 gpexpand:pivhdsne:gpadmin-[INFO]:-Stopping database
+20150109:09:28:56:007387 gpexpand:pivhdsne:gpadmin-[INFO]:-Creating expansion schema
+20150109:09:28:58:007387 gpexpand:pivhdsne:gpadmin-[INFO]:-Populating gpexpand.status_detail with data from 
+  database template1
+20150109:09:29:02:007387 gpexpand:pivhdsne:gpadmin-[INFO]:-Populating gpexpand.status_detail with data from 
+  database postgres
+20150109:09:29:07:007387 gpexpand:pivhdsne:gpadmin-[INFO]:-Populating gpexpand.status_detail with data from 
+  database gpadmin
+20150109:09:29:10:007387 gpexpand:pivhdsne:gpadmin-[INFO]:-Populating gpexpand.status_detail with data from 
+  database movielens
+20150109:09:29:14:007387 gpexpand:pivhdsne:gpadmin-[INFO]:-Stopping HAWQ
+20150109:09:29:28:007387 gpexpand:pivhdsne:gpadmin-[INFO]:-Starting HAWQ
+20150109:09:29:43:007387 gpexpand:pivhdsne:gpadmin-[INFO]:-************************************************
+20150109:09:29:43:007387 gpexpand:pivhdsne:gpadmin-[INFO]:-Initialization of the system expansion complete.
+20150109:09:29:43:007387 gpexpand:pivhdsne:gpadmin-[INFO]:-To begin table expansion onto the new segments
+20150109:09:29:43:007387 gpexpand:pivhdsne:gpadmin-[INFO]:-rerun gpexpand
+20150109:09:29:43:007387 gpexpand:pivhdsne:gpadmin-[INFO]:-************************************************
+20150109:09:29:43:007387 gpexpand:pivhdsne:gpadmin-[INFO]:-Exiting...
+20150109:09:29:43:008915 gpexpand:pivhdsne:gpadmin-[INFO]:-local HAWQ Version: 'postgres (HAWQ) 4.2.0 build 1'
+20150109:09:29:44:008915 gpexpand:pivhdsne:gpadmin-[INFO]:-master HAWQ Version: 'PostgreSQL 8.2.15 
+  (Greenplum Database 4.2.0 build 1) (HAWQ 1.2.1.0 build 10335) on x86_64-unknown-linux-gnu, compiled by 
+  GCC gcc (GCC) 4.4.2 compiled on Aug  8 2014 16:31:48'
+20150109:09:29:45:008915 gpexpand:pivhdsne:gpadmin-[INFO]:-Querying gpexpand schema for current expansion 
+ state
+20150109:09:29:48:008915 gpexpand:pivhdsne:gpadmin-[INFO]:-Distribution policy for table public.age_ranges is 
+  'age_range_id' 
+20150109:09:29:48:008915 gpexpand:pivhdsne:gpadmin-[INFO]:-Expanding movielens.public.age_ranges
+20150109:09:29:48:008915 gpexpand:pivhdsne:gpadmin-[INFO]:-Finished expanding movielens.public.age_ranges
+20150109:09:29:49:008915 gpexpand:pivhdsne:gpadmin-[INFO]:-Distribution policy for table public.genders is 
+  'gender_id' 
+20150109:09:29:49:008915 gpexpand:pivhdsne:gpadmin-[INFO]:-Expanding movielens.public.genders
+20150109:09:29:49:008915 gpexpand:pivhdsne:gpadmin-[INFO]:-Finished expanding movielens.public.genders
+20150109:09:29:50:008915 gpexpand:pivhdsne:gpadmin-[INFO]:-Distribution policy for table public.genres is 
+  'genre_id' 
+20150109:09:29:50:008915 gpexpand:pivhdsne:gpadmin-[INFO]:-Expanding movielens.public.genres
+20150109:09:29:51:008915 gpexpand:pivhdsne:gpadmin-[INFO]:-Finished expanding movielens.public.genres
+20150109:09:29:52:008915 gpexpand:pivhdsne:gpadmin-[INFO]:-Distribution policy for table public.movie_genres is 
+  'movie_genre_id' 
+20150109:09:29:52:008915 gpexpand:pivhdsne:gpadmin-[INFO]:-Expanding movielens.public.movie_genres
+20150109:09:29:52:008915 gpexpand:pivhdsne:gpadmin-[INFO]:-Finished expanding movielens.public.movie_genres
+20150109:09:29:53:008915 gpexpand:pivhdsne:gpadmin-[INFO]:-Distribution policy for table public.movies is 
+  'movie_id' 
+20150109:09:29:53:008915 gpexpand:pivhdsne:gpadmin-[INFO]:-Expanding movielens.public.movies
+20150109:09:29:53:008915 gpexpand:pivhdsne:gpadmin-[INFO]:-Finished expanding movielens.public.movies
+20150109:09:29:54:008915 gpexpand:pivhdsne:gpadmin-[INFO]:-Distribution policy for table public.occupations is 
+  'occupation_id' 
+20150109:09:29:54:008915 gpexpand:pivhdsne:gpadmin-[INFO]:-Expanding movielens.public.occupations
+20150109:09:29:54:008915 gpexpand:pivhdsne:gpadmin-[INFO]:-Finished expanding movielens.public.occupations
+20150109:09:29:55:008915 gpexpand:pivhdsne:gpadmin-[INFO]:-Distribution policy for table public.ratings is 
+  'rating_id' 
+20150109:09:29:55:008915 gpexpand:pivhdsne:gpadmin-[INFO]:-Expanding movielens.public.ratings
+20150109:09:29:57:008915 gpexpand:pivhdsne:gpadmin-[INFO]:-Finished expanding movielens.public.ratings
+20150109:09:29:58:008915 gpexpand:pivhdsne:gpadmin-[INFO]:-Distribution policy for table public.users is 
+  'user_id' 
+20150109:09:29:58:008915 gpexpand:pivhdsne:gpadmin-[INFO]:-Expanding movielens.public.users
+20150109:09:29:58:008915 gpexpand:pivhdsne:gpadmin-[INFO]:-Finished expanding movielens.public.users
+20150109:09:29:59:008915 gpexpand:pivhdsne:gpadmin-[INFO]:-Distribution policy for table public.zipcodes is 
+  'zipcode_id' 
+20150109:09:29:59:008915 gpexpand:pivhdsne:gpadmin-[INFO]:-Expanding movielens.public.zipcodes
+20150109:09:29:59:008915 gpexpand:pivhdsne:gpadmin-[INFO]:-Finished expanding movielens.public.zipcodes
+20150109:09:30:10:008915 gpexpand:pivhdsne:gpadmin-[INFO]:-EXPANSION COMPLETED SUCCESSFULLY
+20150109:09:30:10:008915 gpexpand:pivhdsne:gpadmin-[INFO]:-Exiting...
+20150109:09:30:10:010036 gpexpand:pivhdsne:gpadmin-[INFO]:-local HAWQ Version: 'postgres (HAWQ) 4.2.0 build 1'
+20150109:09:30:11:010036 gpexpand:pivhdsne:gpadmin-[INFO]:-master HAWQ Version: 'PostgreSQL 8.2.15 
+  (Greenplum Database 4.2.0 build 1) (HAWQ 1.2.1.0 build 10335) on x86_64-unknown-linux-gnu, compiled by 
+  GCC gcc (GCC) 4.4.2 compiled on Aug  8 2014 16:31:48'
+20150109:09:30:12:010036 gpexpand:pivhdsne:gpadmin-[INFO]:-Querying gpexpand schema for current expansion state
+
+
+Do you want to dump the gpexpand.status_detail table to file? Yy|Nn (default=Y):
+> Y
+20150109:09:30:17:010036 gpexpand:pivhdsne:gpadmin-[INFO]:-Dumping gpexpand.status_detail to 
+  /data/1/hawq_master/gpseg-1/gpexpand.status_detail
+20150109:09:30:18:010036 gpexpand:pivhdsne:gpadmin-[INFO]:-Removing gpexpand schema
+20150109:09:30:18:010036 gpexpand:pivhdsne:gpadmin-[INFO]:-Cleanup Finished.  exiting...</programlisting>
+        <para>You will learn more about <emphasis role="bold"><literal>gpexpand</literal></emphasis>
+          and segment expansion if you take our <emphasis role="bold">HAWQ Administration
+            course</emphasis>.</para>
+      </listitem>
+      <listitem>
+        <para>List the content of the <emphasis role="bold"
+            ><application>Hadoop</application></emphasis>
+          <filename>hawq_data</filename> directory: </para>
+        <programlisting>[pivhdsne:02.5_HAWQ_Storage]$ <emphasis role="bold">hadoop fs -ls /hawq_data</emphasis>
+Found 6 items
+<emphasis role="bold">drwx------   - gpadmin hadoop          0 2014-08-24 12:02 /hawq_data/gpseg0
+drwx------   - gpadmin hadoop          0 2014-12-16 20:07 /hawq_data/gpseg1
+drwx------   - gpadmin hadoop          0 2014-12-16 20:07 /hawq_data/gpseg2
+drwx------   - gpadmin hadoop          0 2014-12-16 20:07 /hawq_data/gpseg3
+drwx------   - gpadmin hadoop          0 2014-12-16 20:07 /hawq_data/gpseg4
+drwx------   - gpadmin hadoop          0 2014-12-16 20:07 /hawq_data/gpseg5</emphasis>       </programlisting>
+        <para>Note that there are five additional segments in /hawq_data. In addition to
+            <literal>gpseg0</literal> there are also <literal>gpseg1-gpseg5</literal>. It appears
+          that <literal>gpexpand</literal> did increase the number of segments from one to
+          six.</para>
+        <para>You will learn more about <emphasis role="bold"
+            ><application>HAWQ</application></emphasis> storage in <emphasis role="bold"
+              ><application>HDFS</application></emphasis> in a subsequent lesson.</para>
+      </listitem>
+    </orderedlist>
+  </section>
+</chapter>
