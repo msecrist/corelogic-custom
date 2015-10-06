@@ -1,0 +1,750 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<chapter id="getting-started">
+  <title>Hadoop Overview</title>
+  <section>
+    <title>Introduction</title>
+    <para>The lab environment in lab exercise consists of the following:</para>
+    <itemizedlist>
+      <listitem>
+        <para>Support for Windows, Mac OS X</para>
+      </listitem>
+      <listitem>
+        <para>Use of the <application><emphasis
+              role="bold">Pivotal HD Single Node Virtual Machine</emphasis></application> ( <emphasis
+            role="bold">VM</emphasis> ).</para>
+      </listitem>
+      <listitem>
+        <para>The <emphasis role="bold"><application>VM</application></emphasis> will run in
+              <application><emphasis role="bold">VMware Player</emphasis></application> ( <emphasis
+            role="bold">Player</emphasis> ) on Windows or <application><emphasis role="bold">VMware
+              Fusion</emphasis></application> ( <emphasis role="bold">Fusion</emphasis> ) on Mac OS
+          X.</para>
+      </listitem>
+      <listitem>
+        <para>The <application><emphasis
+              role="bold">VM</emphasis></application> uses the <application><emphasis
+              role="bold">CentOS 6.4 Linux</emphasis></application> operating system.</para>
+      </listitem>
+      <listitem>
+        <para>You will use the <application><emphasis role="bold">PostgreSQL
+            pgAdmin3</emphasis></application> client.</para>
+      </listitem>
+      <listitem>
+        <para>You will use the <application><emphasis role="bold">PostgreSQL psql</emphasis> (
+                <application><emphasis role="bold">psql</emphasis></application> )</application>
+          command line interface.</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+  <section>
+    <title>Learning Objectives</title>
+    <para><emphasis
+        role="bold">You will learn how to:</emphasis></para>
+    <itemizedlist>
+      <listitem>
+        <para>Install and launch the <application><emphasis role="bold">Pivotal HD Single Node VM</emphasis></application></para>
+      </listitem>
+      <listitem>
+        <para>Start the <emphasis role="bold"><application>Pivotal HD</application></emphasis>
+          services</para>
+      </listitem>
+      <listitem>
+        <para>Become familiar with the <application><emphasis role="bold">Pivotal Command
+              Center</emphasis></application> ( <emphasis role="bold"
+            ><application>PCC</application></emphasis> ).</para>
+      </listitem>
+      <listitem>
+        <para>Explore a Hadoop Installation</para>
+      </listitem>
+      <listitem>
+        <para/>
+      </listitem>
+      <listitem>
+        <para>Execute basic Hadoop commands</para>
+      </listitem>
+      <listitem>
+        <para/>
+      </listitem>
+      <listitem>
+        <para/>
+      </listitem>
+      <listitem>
+        <para>How to load the Retail Data set into the Hadoop Distributed File System ( <emphasis
+            role="bold">HDFS</emphasis> )</para>
+      </listitem>
+      <listitem>
+        <para>Stop the cluster ( Optional Task )</para>
+      </listitem>
+      <listitem>
+        <para>Stop the VM ( Optional Task )</para>
+      </listitem>
+    </itemizedlist>
+    <para><emphasis role="bold">Estimated completion time: 45 minutes</emphasis></para>
+  </section>
+  <section>
+    <title>Applications And Setup</title>
+    <para>This section is specific to the Windows / Mac OS X platforms.</para>
+    <section>
+      <title>Applications Required</title>
+      <para>You need the following applications and tools to perform all the labs exercises. These
+        all should be provided to you on a USB stick, or through your Organization's classroom setup
+        Administrator, or by the Instructor.</para>
+      <orderedlist>
+      <listitem>
+        <para>The <emphasis
+            role="bold"><application>VM</application></emphasis> image used in these
+          exercises</para>
+        <orderedlist
+          numeration="loweralpha">
+          <listitem>
+            <para><emphasis
+                role="bold"><filename>HAWQ-Architecture-1.2.1b.RELEASE_VM</filename></emphasis></para>
+          </listitem>
+        </orderedlist>
+      </listitem>
+      <listitem/>
+      <listitem>
+        <para>The trial versions of <emphasis
+            role="bold"><application>Player</application></emphasis> or <emphasis
+            role="bold"><application>Fusion</application></emphasis><orderedlist
+            numeration="loweralpha">
+            <listitem>
+              <para><emphasis
+                  role="bold"><filename>VMware-player-7.0.0-2305329.exe</filename></emphasis> -
+                Windows 32-bit and 64-bit</para>
+            </listitem>
+            <listitem>
+              <para><emphasis
+                  role="bold"><filename>VMware-Fusion-7.1.0-2314774.dmg</filename></emphasis> - Mac
+                OSX</para>
+            </listitem>
+          </orderedlist></para>
+      </listitem>
+      <listitem>
+        <para>The <emphasis
+            role="bold"><application>7-zip</application></emphasis> extractor</para>
+        <orderedlist
+          numeration="loweralpha">
+          <listitem>
+            <para><emphasis
+                role="bold"><filename>7z920.exe</filename></emphasis> (32 bit) or <emphasis
+                role="bold"><filename>7z935-x64.msi</filename></emphasis> (64 bit) - Windows 7 or
+              8</para>
+          </listitem>
+          <listitem>
+            <para><emphasis
+                role="bold"><filename>keka-1.0.4-intel.dmg</filename></emphasis> - Mac OS X </para>
+          </listitem>
+        </orderedlist>
+      </listitem>
+    </orderedlist>
+    </section>
+    <section>
+      <title>Setting up the Hadoop / HAWQ Environment</title>
+    <para>In this section you will install the applications and tools you will need to work in the
+      HAWQ environment</para>
+    <orderedlist>
+      <listitem>
+        <para>Install an extraction tool for your operating system. </para>
+        <para>If you already have a <literal>7z</literal> extraction tool you may skip this
+          step.</para>
+        <orderedlist numeration="loweralpha">
+          <listitem>
+            <para>Windows 7 / 8 - Double click <emphasis
+                role="bold"><filename>7z935-x64.msi</filename></emphasis> to install 7zip and follow
+              the installation steps selecting the defaults.</para>
+          </listitem>
+          <listitem>
+            <para>Mac OSX - Double click <emphasis
+                role="bold"><filename>keka-1.0.4-intel.dmg</filename></emphasis> to extract the <emphasis
+                role="bold"><application>Keka</application></emphasis> application</para>
+          </listitem>
+        </orderedlist>
+      </listitem>
+      <listitem>
+        <para>Install <emphasis
+            role="bold"><application>Player</application></emphasis> or <emphasis
+            role="bold"><application>Fusion</application></emphasis> for your operating system <orderedlist
+            numeration="loweralpha">
+            <listitem>
+              <para>Windows 7 / 8 - Double click on <emphasis
+                  role="bold"><filename>VMware-player-7.0.0-2305329.exe</filename></emphasis> permit
+                the installer to run and make changes to your disk</para>
+            </listitem>
+            <listitem>
+              <para>Mac OSX - Double click on <emphasis
+                  role="bold"><filename>VMware-Fusion-7.1.0-2314774.dmg</filename></emphasis>. When
+                the installer window opens double click on the VMware Fusion icon to start the
+                installation and follow the installation instructions</para>
+            </listitem>
+          </orderedlist></para>
+      </listitem>
+      <listitem>
+        <para>Extract the VM and place on your local Desktop<orderedlist
+            numeration="loweralpha">
+            <listitem>
+              <para>Windows 7 / 8 - Right click on <emphasis
+                  role="bold"><filename>HAWQ-Architecture-1.2.1b.RELEASE_VM.7z</filename></emphasis>
+                <orderedlist>
+                  <listitem>
+                    <para>Select 'Extract files...</para>
+                  </listitem>
+                  <listitem>
+                    <para>Extract to the Desktop</para>
+                  </listitem>
+                </orderedlist></para>
+            </listitem>
+            <listitem>
+              <para>Mac OSX - Double click on <emphasis
+                  role="bold"><filename>HAWQ-Architecture-1.2.1b.RELEASE_VM.7z</filename></emphasis><orderedlist>
+                  <listitem>
+                    <para>Once the extraction process is complete drag the folder named <emphasis
+                        role="bold"><filename>HAWQ-Architecture-1.2.1b.RELEASE_VM</filename></emphasis>
+                      to your Mac desktop</para>
+                  </listitem>
+                </orderedlist></para>
+            </listitem>
+          </orderedlist></para>
+      </listitem>
+      <listitem>
+        <para/>
+      </listitem>
+      <listitem>
+        <para>The pgAdmin3 client is pre-installed the VM and may be used if desired.</para>
+      </listitem>
+    </orderedlist>
+  </section>
+  </section>
+  <section>
+    <title id="launchVM">Accessing The Desktop</title>
+    <para>To access the desktop you must launch the VM if you are on a Windows or Mac OS X
+      platform.</para>
+    <section>
+      <title>Acessing the Desktop On Windows / Mac OS X Platforms</title><para>If you are on a Windows or Mac OS X platform you will launch the <emphasis role="bold"
+            ><application>VM</application></emphasis> to access the desktop and start the required
+        services.</para>
+    <orderedlist>
+      <listitem>
+        <para>Launch the <application>VM</application></para>
+        <orderedlist numeration="loweralpha">
+          <listitem>
+            <para>Double click on the file <emphasis role="bold"
+                  ><filename>HAWQ-Architecture-1.2.1b.RELEASE_VM.vmx</filename></emphasis> located
+              in the <emphasis role="bold"><filename>HAWQ-Architecture-1.2.1b.RELEASE_VM</filename>
+              </emphasis>folder on your Desktop.</para>
+          </listitem>
+          <listitem>
+            <para>This will open a new window and start the VM in <emphasis role="bold"
+                  ><application>Player</application></emphasis> or <emphasis role="bold"
+                  ><application>Fusion</application></emphasis> depending on the platform that you
+              are running on.</para>
+          </listitem>
+          <listitem>
+            <para>The first time the <application><emphasis role="bold">VM</emphasis></application> is launched
+                you may be prompted with the following message: </para>
+            <para>"This virtual machine might have been moved or copied."</para>
+            <para>If so, the proper response is: "<emphasis role="bold"><emphasis role="italic">I
+                  Copied It</emphasis></emphasis>".</para>
+          </listitem>
+          <listitem>
+            <para>The first time the VM is launched you may be prompted to update VMware Tools. </para>
+            <para>Agree to the prompt and wait briefly for the update to complete.</para>
+            <para><emphasis role="bold">NOTE: Be Patient!!</emphasis> It may take several minutes
+              for the VM to launch!!</para>
+            <para>
+              <figure>
+                <title>Pivotal HD Single Node Virtual Machine</title>
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/start-vm.png"/>
+                  </imageobject>
+                </mediaobject>
+              </figure>
+            </para>
+          </listitem>
+        </orderedlist>
+      </listitem>
+      <listitem>
+        <para>Start the cluster services <orderedlist>
+            <listitem>
+              <para>Double click on the <emphasis role="bold"
+                  ><filename>start_all.sh</filename></emphasis> icon on the VM desktop.</para>
+            </listitem>
+            <listitem>
+              <para>When prompted select <literal>Run In Terminal</literal> from the pop up
+                window.</para>
+            </listitem>
+            <listitem>
+              <para>A terminal window will open displaying services as they start.</para>
+            </listitem>
+            <listitem>
+              <para>When the terminal window closes the cluster will be running.<note>
+                  <para><emphasis role="bold">Be Patient!!</emphasis> It may take 1 - 2 minutes for
+                    this script to run!! You need to relax and let this script start all the
+                    services. If you get to <xref linkend="configure_pgadmin3"/> below and pgAdmin3
+                    gives you errors, you may need to wait a bit longer for all the services to
+                    finish starting.</para>
+                </note></para>
+            </listitem>
+          </orderedlist></para>
+      </listitem>
+    </orderedlist>
+    
+    </section>
+    <section>
+      <title>Accessing the Desktop In Remotely Hosted Environments</title>
+    </section>
+  </section>
+  <section>
+    <title id="pcc">Connect to the Pivotal Command Center</title>
+    <orderedlist>
+      <listitem
+        id="login-to-pcc">
+        <para>To login into <emphasis
+            role="bold"><application>PCC</application></emphasis> launch <emphasis
+            role="bold"><application>FireFox</application></emphasis> from the menu bar. Once <emphasis
+            role="bold"><application>FireFox</application></emphasis> has started, select the <emphasis
+            role="bold"><application>FireFox</application></emphasis> menu bar button labeled
+          Pivotal Command Center (it shoudl be the first button on the left). You may be prompted
+          with a security warning. If so, you can select "<emphasis
+            role="bold">I Understand the Risks</emphasis>". Then click on the button with the text "<emphasis
+            role="bold">Add Exception</emphasis>" at the bottom left. You will then get a pop-up
+          titled "<emphasis
+            role="bold">Add Security Exception</emphasis>". In the bottom left of this pop-up you
+          will see a button with the text "<emphasis
+            role="bold">Confirm Security Exception</emphasis>". Click this button to add an
+          exception. At this point you should be presented with a web page with the text "<emphasis
+            role="bold">Login to Command Center</emphasis>".</para>
+        <para>Login using the following credentials: </para>
+        <para><userinput>Username: gpadmin</userinput>
+        </para>
+        <para><userinput>Password: Gpadmin1</userinput>
+        </para>
+        <para>You should see the PCC listing the services running in the VM, specifically cluster
+          pivhd (PHD-2.1.0.0) with services "gfxd, HAWQ, HBase, HDFS, Hive, Mahout, Pig, PXF, YARN,
+          ZooKeeper" running:</para>
+        <para></para>
+        <figure>
+          <title>Pivotal Command Center</title>
+          <mediaobject>
+            <imageobject>
+              <imagedata
+                fileref="images/pivotal-command-center.png"
+                scalefit="1"></imagedata>
+            </imageobject>
+          </mediaobject>
+        </figure>
+        <para> Note the services that were started. </para>
+      </listitem>
+    </orderedlist>
+  </section>
+  <section>
+    <title>Exploring the Hadoop Installation</title>
+    <para><?oxy_custom_start type="oxy_content_highlight" color="255,60,255"?>The remainder of this
+      lab exercise involves working with a local instance of a Hadoop distribution. The goal is to
+      enable you to gain experience with how to install and configure a distribution. An important
+      point to keep in mind is that there is a Hadoop cluster that will be used for later labs. For
+      this lab, we won't be using that Hadoop cluster. Instead, each student will be setting up
+      their own Hadoop installation. For that reason, we will make some temporary changes to ensure
+      that the correct (lab-specific) version of Hadoop is used for this lab.</para>
+    <para>Launch the file explorer using the icon on the desktop and navigate to the
+        <filename>~/labs/HadoopOverview</filename> folder. There should be a folder there called
+        <filename>hadoop-2.6.0</filename> if the script you ran earlier completed successfully.
+      Expand this folder and also the folders labeled <filename>etc</filename> and
+        <filename>hadoop</filename> under it
+        (<filename>~labs/HadoopOverview/hadoop-2.6.0/etc/hadoop</filename>). This is where all the
+      configuration files for Hadoop are kept.</para>
+    <tip>
+      <para>If you are more comfortable working from the command line, you can select the terminal
+        icon from the top menu bar and use the terminal to perform your navigation.</para>
+    </tip>
+    <para>Locate several key files for configuring Hadoop such <filename>core-site.xml</filename>,
+        <filename>mapred-site.xml,</filename><filename>hdfs-site.xml</filename> and
+        <filename>hadoop-env.sh</filename>. Take a moment to open each of these. </para>
+    <tip>
+      <para>If you prefer using the graphical approach, right mouse click on one of the XML files
+        and select <literal>Open with gedit</literal>.</para>
+    </tip>
+    <para>Note that most are empty because the current configuration is set up in standalone mode.
+      As a result, no Hadoop services will run and all Hadoop processing will be run in-memory in a
+      single Java process.</para>
+    <para>
+      <note>
+        <para>There are many additional concepts we could explore such as MapReduce programming,
+          local Yarn resource management, and others. However, these are beyond the intent and focus
+          of the course.<?oxy_custom_end?></para>
+      </note>
+    </para>
+  </section>
+    <section>
+      <title id="configure_pgadmin3">Configure the <application>PostgreSQL pgAdmin3</application> Client</title>
+      <section>
+      <title>Configure pgAdmin3 On Windows / Mac OS X Platforms</title>
+    
+    </section>
+    <section>
+      <title>Configure pgAdmin3 In A Remotely Hosted environment</title>
+    </section>
+    </section>
+    <section>
+      <title> Basic <application>Hadoop</application> Commands </title>
+    <section>
+      <title> Basics of Hadoop</title>
+      <para>There are two distinct environments to navigate in the VM: </para>
+      <orderedlist
+        numeration="loweralpha">
+        <listitem>
+          <para><emphasis role="bold">Local</emphasis>: The <application>CentOS</application>
+            operating system running inside the VM. Basic <application>Linux</application> terminal
+            commands and <literal>System Tools  File Browser</literal> are applicable for browsing
+            the <application>CentOS</application> file system within the VM. </para>
+        </listitem>
+        <listitem>
+          <para>Hadoop Distributed File System (<emphasis
+              role="bold">HDFS</emphasis>) </para>
+        </listitem>
+      </orderedlist>
+      <para>The HDFS environment is navigated from the terminal command line only. HDFS commands
+        have the form: </para>
+      <para><emphasis
+          role="bold"> hadoop fs : this lists the commands you can perform with the hadoop
+          filesystem (fs)</emphasis>
+      </para>
+      <para><emphasis
+          role="bold">hadoop fs –help : to list description of commands </emphasis></para>
+      <para><emphasis
+          role="bold">hadoop fs –help command : this lists the help screen for a specific
+          command</emphasis></para>
+      <para><emphasis
+          role="bold">hadoop fs –command </emphasis>
+      </para>
+      <para><emphasis
+          role="bold">hadoop fs –ls &lt;absolute path&gt; : list files in dir specified by the
+          &lt;aboslute path&gt;</emphasis>
+      </para>
+      <para><emphasis
+          role="bold">Note there is no cd (change directory) command for HDFS navigation.</emphasis>
+      </para>
+    </section>
+      <section><title>Hadoop and HDFS commands</title>
+        <para>While the PostgreSQL <emphasis
+          role="bold"><application>pgAdmin3</application></emphasis> client is used to administer
+        and query the <emphasis
+          role="bold"><application>HAWQ</application></emphasis> database, the <emphasis
+          role="bold"><application>HAWQ</application></emphasis> data is stored in <emphasis
+          role="bold"><application>HDFS</application></emphasis> and must be administered and viewed
+        using commands executed from the <application>Linux</application> command line using the
+          <application>Hadoop</application> shell.</para>
+      <orderedlist>
+        <listitem>
+          <para>Execute the <command>hadoop</command> command with no arguments to display available
+              <application>Hadoop</application> commands.</para>
+          <para>
+            <programlisting>[pivhdsne:~]$ <emphasis role="bold">hadoop</emphasis>
+Usage: hadoop [--config confdir] COMMAND
+       where COMMAND is one of:
+  fs                   run a generic filesystem user client
+  version              print the version
+  jar &lt;jar>            run a jar file
+  checknative [-a|-h]  check native hadoop and compression libraries availability
+  distcp &lt;srcurl> &lt;desturl> copy file or directories recursively
+  archive -archiveName NAME -p &lt;parent path> &lt;src>* &lt;dest> create a hadoop archive
+  classpath            prints the class path needed to get the
+                       Hadoop jar and the required libraries
+  daemonlog            get/set the log level for each daemon
+ or
+  CLASSNAME            run the class named CLASSNAME
+
+Most commands print help when invoked w/o parameters.</programlisting>
+          </para>
+        </listitem>
+        <listitem>
+          <para>Execute the <command>hadoop fs</command> command to display <emphasis
+              role="bold"><application>Hadoop</application></emphasis> command usage.</para>
+            <programlisting>[pivhdsne:~]$ <emphasis role="bold">hadoop fs</emphasis>
+Usage: hadoop fs [generic options]
+	[-appendToFile &lt;localsrc> ... &lt;dst>]
+	[-cat [-ignoreCrc] &lt;src> ...]
+	[-checksum &lt;src> ...]
+	[-chgrp [-R] GROUP PATH...]
+	[-chmod [-R] &lt;MODE[,MODE]... | OCTALMODE> PATH...]
+	[-chown [-R] [OWNER][:[GROUP]] PATH...]
+	[-copyFromLocal [-f] [-p] &lt;localsrc> ... &lt;dst>]
+	[-copyToLocal [-p] [-ignoreCrc] [-crc] &lt;src> ... &lt;localdst>]
+	[-count [-q] &lt;path> ...]
+	[-cp [-f] [-p] &lt;src> ... &lt;dst>]
+	[-createSnapshot &lt;snapshotDir> [&lt;snapshotName>]]
+	[-deleteSnapshot &lt;snapshotDir> &lt;snapshotName>]
+	[-df [-h] [&lt;path> ...]]
+	[-du [-s] [-h] &lt;path> ...]
+	[-expunge]
+	[-get [-p] [-ignoreCrc] [-crc] &lt;src> ... &lt;localdst>]
+	[-getmerge [-nl] &lt;src> &lt;localdst>]
+	[-help [cmd ...]]
+	[-ls [-d] [-h] [-R] [&lt;path> ...]]
+	[-mkdir [-p] &lt;path> ...]
+	[-moveFromLocal &lt;localsrc> ... &lt;dst>]
+	[-moveToLocal &lt;src> &lt;localdst>]
+	[-mv &lt;src> ... &lt;dst>]
+	[-put [-f] [-p] &lt;localsrc> ... &lt;dst>]
+	[-renameSnapshot &lt;snapshotDir> &lt;oldName> &lt;newName>]
+	[-rm [-f] [-r|-R] [-skipTrash] &lt;src> ...]
+	[-rmdir [--ignore-fail-on-non-empty] &lt;dir> ...]
+	[-setrep [-R] [-w] &lt;rep> &lt;path> ...]
+	[-stat [format] &lt;path> ...]
+	[-tail [-f] &lt;file>]
+	[-test -[defsz] &lt;path>]
+	[-text [-ignoreCrc] &lt;src> ...]
+	[-touchz &lt;path> ...]
+	[-usage [cmd ...]]
+
+Generic options supported are
+-conf &lt;configuration file>     specify an application configuration file
+-D &lt;property=value>            use value for given property
+-fs &lt;local|namenode:port>      specify a namenode
+-jt &lt;local|jobtracker:port>    specify a job tracker
+-files &lt;comma separated list of files>    specify comma separated files to be copied to the map reduce 
+  cluster
+-libjars &lt;comma separated list of jars>    specify comma separated jar files to include in the classpath.
+-archives &lt;comma separated list of archives>    specify comma separated archives to be unarchived on 
+  the compute machines.
+
+The general command line syntax is
+bin/hadoop command [genericOptions] [commandOptions]</programlisting>
+          <para>Note the similarity to many <application>Linux</application> commands that you may be familiar with.</para>
+        </listitem>
+        <listitem>
+          <para>Execute <command>hadoop fs -help [ cmd ]</command> command to display help about a
+            specific <emphasis
+              role="bold"><application>Hadoop</application></emphasis> command.
+            <programlisting>[pivhdsne:~]$ <emphasis role="bold">hadoop fs -help chmod</emphasis>
+       -chmod [-R] &lt;MODE[,MODE]... | OCTALMODE> PATH...: Changes permissions of a file.
+	This works similar to shell's chmod with a few exceptions.
+		
+	-R	modifies the files recursively. This is the only option currently supported.
+		
+	MODE	Mode is same as mode used for chmod shell command.
+		Only letters recognized are 'rwxXt'. E.g. +t,a+r,g-w,+rwx,o=r
+		
+	OCTALMODE Mode specifed in 3 or 4 digits. If 4 digits, the first may be 1 or 0 to turn 
+	      the sticky bit on or off, respectively.  Unlike shell command, it is not possible to 
+	      specify only part of the mode
+		
+		E.g. 754 is same as u=rwx,g=rx,o=r
+		
+		If none of 'augo' is specified, 'a' is assumed and unlike
+		shell command, no umask is applied.</programlisting></para>
+        </listitem>
+        <listitem>
+          <para>List the structure of the root ( / ) directory of <emphasis
+              role="bold"><application>HDFS</application></emphasis>.</para>
+            <programlisting>[pivhdsne:~]$ <emphasis role="bold">hadoop fs -ls /</emphasis>
+Found 7 items
+drwxr-xr-x   - hdfs    hadoop          0 2014-08-24 11:54 /apps
+<emphasis role="bold">drwxr-xr-x   - gpadmin hadoop          0 2014-08-24 12:02 /hawq_data</emphasis>
+drwxr-xr-x   - hdfs    hadoop          0 2014-08-24 11:56 /hive
+drwxr-xr-x   - mapred  hadoop          0 2014-08-24 11:55 /mapred
+drwxrwxrwx   - hdfs    hadoop          0 2014-08-24 11:55 /tmp
+drwxrwxrwx   - hdfs    hadoop          0 2014-08-24 12:10 /user
+drwxr-xr-x   - hdfs    hadoop          0 2014-08-24 11:56 /yarn </programlisting>
+          <para>All <emphasis
+              role="bold"><application>HAWQ</application></emphasis> data will be stored in the
+              <filename>/hawq_data</filename> directory structure.</para>
+        </listitem>
+        <listitem>
+          <para>List the structure of the <filename>/hawq_data</filename> directory.</para>
+          <programlisting>[pivhdsne:~]$ <emphasis role="bold">hadoop fs -ls /hawq_data</emphasis>
+Found 1 items
+<emphasis role="bold">drwx------   - gpadmin hadoop          0 2014-08-24 12:02 /hawq_data/gpseg0</emphasis></programlisting>
+          <para>Note that <filename>/hawq_data</filename> directory contains but one directory. The
+            name of the directory is <filename>gpseg0</filename>. This indicates to you that the
+              <application>VM</application> has only one <emphasis role="bold"
+                ><application>HAWQ</application></emphasis> segment. This means that all <emphasis
+              role="bold"><application>HAWQ</application></emphasis> data will be stored on one
+            segment. Queries run against the data on the single segment will fail to achieve the
+              <literal>Massive Parallel Processing</literal> ( <emphasis role="bold">MPP</emphasis>
+            ) capabilities of <emphasis role="bold"
+            ><application>HAWQ</application></emphasis>.</para>
+        </listitem>
+      </orderedlist>
+      </section>
+    </section>
+    <section>
+      <title>Adding <application>HAWQ</application> Segments</title>
+    </section>
+    <section>
+      <title>Load The Retail Data Set Into HDFS</title>
+      <para>The VM contains the retail data set in the local
+        directory<filename>/retail_demo</filename>.<orderedlist>
+        <listitem>
+          <para>Load the retail data set from <filename>/retail demo</filename> into the
+              <filename>retailsales</filename> directory at the root level of <emphasis
+              role="bold"><application>HDFS</application></emphasis> using the <command>hadoop fs
+              -put</command> command.</para>
+          <programlisting>[pivhdsne:~]$ <emphasis role="bold">hadoop fs -put /retail_demo /retailsales</emphasis></programlisting>
+          <note>
+            <para>You will not see any output from this command. Hadoop commands mimic Linux
+              commands, In this case, since you are essentially copying data from the local
+              filesystem into the hadoop file system, the command simply works and does not give you
+              any output as feedback.</para>
+          </note>
+        </listitem>
+        <listitem>
+          <para>Using the <command>hadoop fs -ls</command> command verify that
+              <literal>retailsales</literal> was successfully loaded into <emphasis
+              role="bold"><application>HDFS</application></emphasis>.<programlisting>[pivhdsne:~]$ <emphasis role="bold">hadoop fs -ls /</emphasis>
+Found 8 items
+drwxr-xr-x   - hdfs    hadoop          0 2014-08-24 11:54 /apps
+drwxr-xr-x   - gpadmin hadoop          0 2014-08-24 12:02 /hawq_data
+drwxr-xr-x   - hdfs    hadoop          0 2014-08-24 11:56 /hive
+drwxr-xr-x   - mapred  hadoop          0 2014-08-24 11:55 /mapred
+<emphasis role="bold">drwxr-xr-x   - gpadmin hadoop          0 2014-12-21 02:30 /retailsales</emphasis>
+drwxrwxrwx   - hdfs    hadoop          0 2014-08-24 11:55 /tmp
+drwxrwxrwx   - hdfs    hadoop          0 2014-08-24 12:10 /user
+drwxr-xr-x   - hdfs    hadoop          0 2014-08-24 11:56 /yarn      </programlisting></para>
+        </listitem>
+        <listitem>
+          <para>You might want to check to make sure that the /retailsales directory in <emphasis
+              role="bold"><application>HDFS</application></emphasis> was actually populated with the
+              <filename>/retail_demo</filename> data.</para>
+          <programlisting>[pivhdsne:~$ <emphasis role="bold">hadoop fs -ls /retailsales</emphasis>
+Found 9 items<emphasis role="bold">
+drwxr-xr-x   - gpadmin hadoop          0 2015-01-09 07:02 /retailsales/categories_dim
+drwxr-xr-x   - gpadmin hadoop          0 2015-01-09 07:02 /retailsales/customer_addresses_dim
+drwxr-xr-x   - gpadmin hadoop          0 2015-01-09 07:02 /retailsales/customers_dim
+drwxr-xr-x   - gpadmin hadoop          0 2015-01-09 07:02 /retailsales/date_dim
+drwxr-xr-x   - gpadmin hadoop          0 2015-01-09 07:02 /retailsales/email_addresses_dim
+drwxr-xr-x   - gpadmin hadoop          0 2015-01-09 07:02 /retailsales/order_lineitems
+drwxr-xr-x   - gpadmin hadoop          0 2015-01-09 07:02 /retailsales/orders
+drwxr-xr-x   - gpadmin hadoop          0 2015-01-09 07:02 /retailsales/payment_methods
+drwxr-xr-x   - gpadmin hadoop          0 2015-01-09 07:02 /retailsales/products_dim</emphasis>          </programlisting>
+        </listitem>
+        <listitem>
+          <para>Notice that all the entries in the <filename>/retailsales</filename> directory are
+            themselves directories. So how do you know that you actually put some data there. You
+            need to go one level deeper.</para>
+          <para>
+            <programlisting>[pivhdsne:~]$ <emphasis role="bold">hadoop fs -ls /retailsales/categories_dim</emphasis>
+Found 1 items
+<emphasis role="bold">-rw-r--r--   3 gpadmin hadoop        590 2015-01-09 07:02 /retailsales/categories_dim/categories_dim.tsv.gz</emphasis></programlisting>
+          </para>
+          <para>Now you can see that you have 590 bytes in the
+              <filename>/retailsales/categories_dim/categories_dim.tsv.gz</filename> file!</para>
+        </listitem>
+        <listitem>
+          <para><emphasis
+              role="bold"><application>Hadoop</application></emphasis> has a series of
+              <command>hdfs</command> commands available to administer your cluster. </para>
+          <para>List the hdfs commands available by executing <command>hdfs</command> with no
+            arguments.<programlisting>[pivhdsne:~]$ <emphasis role="bold">hdfs</emphasis>
+Usage: hdfs [--config confdir] COMMAND
+       where COMMAND is one of:
+  dfs                  run a filesystem command on the file systems supported in Hadoop.
+  namenode -format     format the DFS filesystem
+  secondarynamenode    run the DFS secondary namenode
+  namenode             run the DFS namenode
+  journalnode          run the DFS journalnode
+  zkfc                 run the ZK Failover Controller daemon
+  datanode             run a DFS datanode
+  dfsadmin             run a DFS admin client
+  haadmin              run a DFS HA admin client
+  fsck                 run a DFS filesystem checking utility
+  balancer             run a cluster balancing utility
+  jmxget               get JMX exported values from NameNode or DataNode.
+  oiv                  apply the offline fsimage viewer to an fsimage
+  oev                  apply the offline edits viewer to an edits file
+  fetchdt              fetch a delegation token from the NameNode
+  getconf              get config values from configuration
+  groups               get the groups which users belong to
+  snapshotDiff         diff two snapshots of a directory or diff the
+                       current directory contents with a snapshot
+  lsSnapshottableDir   list all snapshottable dirs owned by the current user
+						Use -help to see options
+  portmap              run a portmap service
+  nfs3                 run an NFS version 3 gateway
+
+Most commands print help when invoked w/o parameter           </programlisting></para>
+        </listitem>
+        <listitem>
+          <para>Run a filesystem check on <literal>retailsales</literal> using the <command>hdfs
+              fsck</command> command
+            <programlisting>[pivhdsne:~]$ <emphasis role="bold">hdfs fsck /retailsales</emphasis>
+Connecting to namenode via http://pivhdsne.localdomain:50070
+FSCK started by gpadmin (auth:SIMPLE) from /127.0.0.1 for path /retailsales at Sun Dec 21 02:49:04 CST 2014
+
+Status: HEALTHY
+ Total size:	300332616 B
+ Total dirs:	10
+ Total files:	9
+ Total symlinks:              0
+ Total blocks (validated):    10 (avg. block size 30033261 B)
+ Minimally replicated blocks: 10 (100.0 %)
+ Over-replicated blocks:      0 (0.0 %)
+ Under-replicated blocks:     10 (100.0 %)
+ Mis-replicated blocks:       0 (0.0 %)
+ Default replication factor:  3
+ Average block replication:   1.0
+ Corrupt blocks:              0
+ Missing replicas:            20 (66.666664 %)
+ Number of data-nodes:        1
+ Number of racks:             1
+FSCK ended at Sun Dec 21 02:49:04 CST 2014 in 4 milliseconds
+
+The filesystem under path '/retailsales' is HEALTHY</programlisting></para>
+        </listitem>
+      </orderedlist></para>
+    </section>
+    <section>
+      <title>Stopping A Hadoop / HAWQ Cluster (Optional Task)</title>
+      <para>To stop the cluster services in the VM or on a Remotely Hosted environment:</para>
+      <para>
+      <orderedlist>
+        <listitem>
+          <para>Double click on the <emphasis role="bold"
+              ><filename>stop_all.sh</filename></emphasis> icon on the desktop.</para>
+        </listitem>
+        <listitem>
+          <para>When prompted select <literal>Run In Terminal</literal> from the pop up window.</para>
+        </listitem>
+        <listitem>
+          <para>A terminal window will open displaying services as they stop.</para>
+        </listitem>
+        <listitem>
+          <para>When the terminal window closes the cluster will be stopped.<note>
+              <para><emphasis
+                  role="bold">Be Patient!!</emphasis> It may take 1 - 2 minutes for this script to
+                run!!</para>
+            </note></para>
+        </listitem>
+      </orderedlist>
+    </para>
+    </section>
+  
+    <section>
+      <title>Exiting from the Desktop ( Optional Task )</title>
+         <section>
+      <title>Exiting from the Desktop on Windows / Mac OS X Platforms</title>
+           <para>To save the state of the <application>VM</application> and quit: </para>
+      <orderedlist>
+        <listitem>
+          <para>Select <literal>Shutdown...</literal> from the <literal>System</literal> menu in the
+              <application>VM</application> toolbar.</para>
+        </listitem>
+        <listitem>
+          <para>Click on the <literal>Shutdown</literal> button on the pop-up window.<note>
+            <para><emphasis
+                role="bold">Be Patient!!</emphasis> It may take several minutes for the VM to
+              shutdown!!</para>
+          </note></para>
+        </listitem>
+        <listitem>
+          <para>Quit out of <application>Player</application> or
+            <application>Fusion</application>.</para>
+        </listitem>
+      </orderedlist>
+    </section>
+    <section>
+      <title>Exiting from the Desktop on a Remotely Hosted Environment</title>
+    </section>
+    </section>
+</chapter>
