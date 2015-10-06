@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<!--
+   // Course Build - Handouts and Slides
+   -->
+<project name="<course-name>-slides" default="help">
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+    <!--                     Course Specific Properties                      -->
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <!-- Root directory of this course.  Everything else is relative. -->
+    <property name="project.root.dir" value=".."/>
+
+    <!-- One of these _must_ specify 'course.build.dir' property -->
+
+    <!-- Developer specific properties. -->
+    <property file="${user.home}/build.properties"/>
+
+    <!-- Developer specific properties. -->
+    <property file="${project.root.dir}/build.properties"/>
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+    <!--                     Import Properties and Tasks                     -->
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <!-- Course configuration properties -->
+    <import file="${course.build.dir}/course-properties.xml" />
+
+    <!-- Targets to manage Open Office -->
+    <import file="${course.build.dir}/soffice-targets.xml" />
+
+    <!-- Targets to process slides are in here -->
+    <import file="${course.build.dir}/slide-targets.xml" />
+
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+    <!--                               Targets                               -->
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <!-- List available targets -->
+    <target name="help">
+        <echo message="Valid targets are: "/>
+        <echo message="   clean    - remove target directory and all contents"/>
+        <echo message="   handouts - build printable and student handouts"/>
+        <echo message="   info     - show configuration"/>
+        <echo message="   printer  - build just printable handouts"/>
+        <echo message="   student  - build just student handouts"/>
+        <echo message="   package  - package all materials to ${target.dir}"/>
+        <echo message="   install  - runs clean, handouts and package"/>
+    </target>
+
+    <!-- Aliases -->
+  	<target name="clean"    depends="clean-handouts"/>
+	<target name="handouts" depends="make-handouts"/>
+	<target name="info"     depends="handouts-info"/>
+    <target name="install"  depends="install-handouts"/>
+    <target name="package"  depends="package-handouts"/>
+ 	<target name="printer"  depends="make-printer-handouts"/>
+    <target name="student"  depends="make-student-handouts"/>
+
+</project>
