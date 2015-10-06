@@ -126,7 +126,8 @@
         <module course="bd" lab="GettingStartediWithHdfs" labdocs="getting-started-with-hdfs" >GettingStartedWithHDFS.ppt</module>        
     </section>
     <section name="HAWQ" first="10">
-        <module course="ha" lab="false">00-Intro_to_HAWQ.ppt</module>  
+        <module course="ha" lab="false">01-HAWQ_Architecture.ppt</module>  
+        <module labdocs="getting-started" />
         <module course="ha" lab="false" labdocs="hawq-storage-in-hdfs">05-HAWQ_Storage_and_IO_in_HDFS.ppt</module>  
         <module course="ha" lab="07-PXF" labdocs="pivotal-extension-framework">07-PXF.ppt</module>  
     </section>
