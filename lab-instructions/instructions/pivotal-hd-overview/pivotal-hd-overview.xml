@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- This document was created with Syntext Serna Free. -->
+<chapter id="pivotal-lab">
+  <title>Pivotal HD Overview</title>
+  <section>
+    <title>Introduction</title>
+    <para>In this lab, you will have the opportunity to get familiar with the Pivotal HD
+      distribution. In addition, some of the steps you will perform here will make it possible to
+      complete the later labs.</para>
+    <itemizedlist>
+      <title>Subjects you will gain experience with:</title>
+      <listitem>
+        <para>Familiarity with the overall Pivotal HD distribution</para>
+      </listitem>
+    </itemizedlist>
+    <para>Estimated time to complete: 30 minutes</para>
+  </section>
+  <section>
+    <title>Detailed Instructions</title>
+    <section>
+      <title>Exploring Pivotal HD</title>
+      <para>Take a few minutes to explore the VM. Using either the &quot;Computer&quot; icon or a
+        command prompt, locate the Pivotal HD install folder (<filename>/usr/lib/gphd</filename>). </para>
+      <para>Take a look at the sub-folders listed and see if you can answer these questions:</para>
+      <itemizedlist>
+        <listitem>
+          <para>On Which version of Hadoop is this Pivotal HD based? _____________</para>
+        </listitem>
+        <listitem>
+          <para>What version of Pig is installed? _____________</para>
+        </listitem>
+        <listitem>
+          <para>What version of Hive is installed? _____________</para>
+        </listitem>
+      </itemizedlist>
+    </section>
+    <section>
+      <title>Exploring The Web Interfaces</title>
+   
+      <para>There are web interfaces to many of the hadoop services which provide a large amount of
+        information. Open the <application>FireFox</application> browser in your VM.</para>
+          <orderedlist>
+            <listitem>
+              <para> To access the <emphasis role="bold">NameNode</emphasis> web interface enter
+                  <filename>pivhdsne:50070</filename> in the address bar.</para>
+              <para>
+                <figure>
+                  <title>NameNode</title>
+                  <mediaobject>
+                    <imageobject>
+                      <imagedata fileref="images/namenode-web.png"/>
+                    </imageobject>
+                  </mediaobject>
+                </figure>
+              </para>
+              <para>Navigate around the <emphasis role="bold">NameNode</emphasis> web interface. Traverse the
+            various links and determine what information that each reveals.</para>
+          <para>You can drill down on the "<emphasis role="bold">Live Nodes</emphasis>" link all the
+            way to the <application>HDFS</application> Filesystem!!!</para>
+            </listitem>
+            <listitem>
+              <para>To access the <emphasis role="bold">Secondary NameNode</emphasis> web interface
+                enter <filename>pivhdsne:50090</filename> in the address bar.</para>
+            <para>
+        <figure>
+          <title>Secondary NameNode</title>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/secondary-namenode-web.png"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+      </para>
+              <para>The <emphasis role="bold">SecondaryNamenode</emphasis> primarily provides information regarding
+                checkpoint related activities and directories. Select the <emphasis role="bold">Logs</emphasis> link
+            to view the <emphasis>Secondary</emphasis></para>
+              <para><emphasis role="bold">NameNode</emphasis> log files.</para>  
+            </listitem>
+            <listitem>
+              <para>To access the <emphasis role="bold">Application Manager</emphasis> web interface
+                enter <filename>pivhdsne:8088</filename> in the address bar.</para>
+          <para>
+        <figure>
+          <title>Application Manager</title>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/application-manager-web.png"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+      </para>
+              <para>The <emphasis role="bold">Application Manager</emphasis> web interface provides a wealth of
+            information regarding jobs that have been submitted against the cluster. All of the
+            links under </para>
+              <para><emphasis role="bold">Cluster</emphasis> and <emphasis role="bold">Tools</emphasis> reveal information
+            regarding those jobs submitted to the cluster, status, node health, scheduler
+            information and much more. Traverse </para>
+          <para>the links to discover what information these links reveal.</para>   
+            </listitem>
+            <listitem>
+              <para>To access the <emphasis role="bold">Job History Server</emphasis> web interface
+                enter <filename>pivhdsne:19888</filename> in the address bar.</para>
+           
+            <para>
+        <figure>
+          <title>Job History</title>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/job-history-web.png"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+      </para>
+              <para>The <emphasis role="bold">Job History</emphasis> web interface provides information
+            regarding all <emphasis role="bold">Retired Jobs</emphasis>. That is all jobs submitted
+            to the cluster that are no longer running. Traverse</para>
+              <para>the links in <emphasis role="bold">Application</emphasis> and <emphasis role="bold">Tools</emphasis> to
+            determine what information is revealed.</para>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            </listitem>
+          </orderedlist>
+       
+    </section>
+  </section>
+
+</chapter>

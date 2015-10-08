@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <chapter id="getting-started-hawq">
-  <title>Getting Started</title>
+  <title>Getting Started With HAWQ</title>
   <section>
     <title>Introduction</title>
     <para>The lab environment in this course consists of the following:</para>

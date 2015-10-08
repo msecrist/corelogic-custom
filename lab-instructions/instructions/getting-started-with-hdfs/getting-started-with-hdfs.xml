@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8'?><chapter id="hdfs-lab">
+  <title>Getting Started with HDFS</title>
+  <section id="getting-started-with-hdfs-lab-introduction">
+    <title>Multi-track Introduction</title>
+    <para>If you haven&apos;t read the Preface to the lab instructions, please do so now. It
+      discusses the concept of multiple lab tracks based on your experience and interest. This is
+      the first lab that makes use of this multi-track layout. Please select the track that is best
+      suited to your experience and interest and complete the assigned tasks.</para>
+  </section>
+  <section>
+    <title><inlinegraphic fileref="images/analyst_icon.jpg" format="JPEG" width="20mm"/> Data
+      Analyst Track</title>
+    <section>
+      <title>Introduction</title>
+      <para>In this lab, you will become familiar with HDFS. Specifically, you will gain experience
+        using the HDFS shell commands to work with files in HDFS.</para>
+      <orderedlist>
+        <title>Subjects you will gain experience with:</title>
+        <listitem>
+          <para>Copying files into HDFS</para>
+        </listitem>
+        <listitem>
+          <para>Viewing the contents of files in HDFS</para>
+        </listitem>
+        <listitem>
+          <para>Removing HDFS files</para>
+        </listitem>
+      </orderedlist>
+      <para>Estimated time to complete: 30 minutes</para>
+      <note>
+        <para><emphasis>IMPORTANT</emphasis>: The Hadoop services must be running in order to
+          complete this exercise. To check, point a web browser to the namenode (http://phd2:50070).
+          If you do not get a web page that shows that you have connected to 'phd2.pivotal.io:8020
+          (active)', ask your instructor to check to see if the NameNode services are runng. If not,
+          your instructor should start the HDFS services. </para>
+      </note>
+    </section>
+    <section>
+      <title>Instructions</title>
+      <para>In this lab, you will perform 4 basic tasks. To begin, open a terminal window using the
+        terminal icon on the launch bar at the top of the VM window.</para>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/vm_terminal_launch.jpg" format="JPG" depth="100mm"
+            width="100mm"/>
+        </imageobject>
+      </mediaobject>
+      <para>Change directories to <filename>~/data</filename> folder. You will perform the following
+        tasks from this folder.</para>
+      <section>
+        <title>Inspect the current contents of HDFS</title>
+        <para>First, use the File System shell commands to list the contents of the HDFS filesystem
+          and attempt to answer the following questions.</para>
+        <orderedlist>
+          <listitem>
+            <para>How many folders are at the root of the HDFS file system?</para>
+          </listitem>
+          <listitem>
+            <para>What do you observe about the owners, groups and permissions for these
+              folders?</para>
+            <tip>
+              <para>If you are unfamiliar with a Posix file system (such as Linux), what you see
+                might not make a lot of sense. The permissions string uses a series of characters to
+                concisely indicate owner, group and other permissions. The first character could be
+                &apos;d&apos;, which means the item is a directory. The next part is in blocks of 3
+                in the sequence of read permission, write permission and execute permission. So,
+                &apos;r&apos; means it can be read, &apos;w&apos; means it can be written,
+                &apos;x&apos; means it can be executed and &apos;-&apos; means no permission. The
+                following listing includes a description for what the various fields
+                represent.</para>
+              <programlisting>Permissions    Owner   Group          Size Date Modified        Name
+drwxr-xr-x   - hdfs    hadoop         0   2013-11-04 18:45     /apps
+drwxr-xr-x   - gpadmin hadoop         0   2014-03-08 06:36     /data
+drwxr-xr-x   - gpadmin hadoop         0   2013-11-05 02:21     /hawq_data</programlisting>
+            </tip>
+          </listitem>
+          <listitem>
+            <para>What are the contents of your user folder?</para>
+            <tip>
+              <para>You&apos;ll need to look under <filename>/user/gpadmin</filename>, the user that
+                you are logged in as. For example, your command might look like this:</para>
+              <para>
+                <programlisting>hdfs dfs -ls /user/gpadmin</programlisting>
+              </para>
+              <para>This is your home directory in HDFS and it is much like your home directory in
+                Unix (usually found under <filename>/home/&lt;username></filename>)</para>
+            </tip>
+          </listitem>
+        </orderedlist>
+      </section>
+      <section>
+        <title>Copy a file into HDFS</title>
+        <para>Perform the following:</para>
+        <orderedlist>
+          <listitem>
+            <para>Use the HDFS File System shell to create a directory called
+                <filename>lab3</filename> into your user directory on HDFS.</para>
+          </listitem>
+          <listitem>
+            <para>Use the HDFS File System shell commands to copy or put the local file
+                <filename>sample_rewards_submission_log.txt</filename> into the directory you just
+              created on HDFS in step 1.</para>
+          </listitem>
+          <listitem>
+            <para>Use the File System shell commands to verify the file is in the
+                <filename>lab3</filename> directory on HDFS. </para>
+          </listitem>
+          <listitem>
+            <para>Open the FireFox browser and locate the tab that has the NameNode information on
+              it. Take a moment to browse around the page reviewing the information provided
+              there.</para>
+            <para>Use &apos;Utilities ▶ Browse the filesystem&apos; link to browse to your HDFS user
+              directory. Locate the file you recently copied in.</para>
+            <itemizedlist>
+              <listitem>
+                <para>What is the block size of the file? </para>
+              </listitem>
+              <listitem>
+                <para>How many blocks will be used to store the file data?</para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+        </orderedlist>
+      </section>
+      <section>
+        <title>Manipulate a file in HDFS</title>
+        <para>Use the File System shell command to manipulate the file you put into HDFS.</para>
+        <orderedlist>
+          <listitem>
+            <para>Inspect the contents of the file. What are some different ways to do this?</para>
+          </listitem>
+          <listitem>
+            <para>Use the shell commands to change the security permissions on the file so that any
+              user or group can read or write the file.</para>
+            <tip>
+              <para>The numeric code that sets the permission (mode) to allow all users and groups
+                to read and write is 666.</para>
+            </tip>
+          </listitem>
+        </orderedlist>
+      </section>
+      <section>
+        <title>Remove a file from HDFS</title>
+        <para>Finally, in the last step, use the HDFS shell commands to remove the file you copied
+          in. As a last step, verify that the file has successfully been removed from your
+            <filename>lab3</filename> folder on HDFS.</para>
+        <para>Contratulations!! You have completed this lab.</para>
+      </section>
+    </section>
+  </section>
+</chapter>
