@@ -3,7 +3,6 @@
   <title>Getting Started</title>
   <section>
     <title>Introduction</title>
-    <para>Welcome to the HAWQ Architecture &amp; Implementation course.</para>
     <para>The lab environment in this course consists of the following:</para>
     <itemizedlist>
       <listitem>

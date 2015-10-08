@@ -266,6 +266,88 @@
               </listitem>
             </orderedlist></para>
         </listitem>
+        <listitem>
+          <para>There are a variety of ways to determine the status of the
+              <application>Hadoop</application> services.<orderedlist>
+              <listitem>
+                <para>One method is to use the <application>Linux</application>
+                  <command>service</command> command.</para>
+                <para>The syntax for the service command is: <command>service</command> SCRIPT
+                  COMMAND</para>
+                <para> The SCRIPT parameter specifies a System V init script, located in
+                    <filename>/etc/init.d/</filename></para>
+                <para>The COMMAND parameter must include both STOP and START. Both STATUS and
+                  RESTART are common commands for most service scripts as well.</para>
+                <para>First list the <application>hadoop</application> services in
+                    <filename>/etc/init.d</filename><programlisting>[pivhdsne:init.d]$ <emphasis role="bold">ls -l hadoop*
+</emphasis>-rwxr-xr-x 1 root root 5248 Jul  3  2014 /etc/init.d/hadoop-hdfs-datanode
+-rwxr-xr-x 1 root root 4704 Jul  3  2014 /etc/init.d/hadoop-hdfs-namenode
+-rwxr-xr-x 1 root root 4437 Jul  3  2014 /etc/init.d/hadoop-hdfs-secondarynamenode
+-rwxr-xr-x 1 root root 4263 Jul  3  2014 /etc/init.d/hadoop-mapreduce-historyserver
+-rwxr-xr-x 1 root root 4372 Jul  3  2014 /etc/init.d/hadoop-yarn-nodemanager
+-rwxr-xr-x 1 root root 4416 Jul  3  2014 /etc/init.d/hadoop-yarn-resourcemanager
+[pivhdsne:~]$ </programlisting></para>
+                <para>Execute the <application>Linux</application>
+                  <command>service</command> command for the <emphasis role="bold"
+                    >namenode</emphasis> service without a command argument to display a list of
+                  available commands for the <emphasis role="bold">namenode</emphasis>
+                  script.<programlisting>[pivhdsne:init.d]$ <emphasis role="bold">service hadoop-hdfs-namenode</emphasis> 
+Usage: /etc/init.d/hadoop-hdfs-namenode {start|stop|status|restart|try-restart|condrestart|upgrade|rollback|init}
+[pivhdsne:init.d]$ </programlisting></para>
+              </listitem>
+              <listitem>
+                <para>Using the Linux <command>service</command> command display the status of the
+                    <emphasis role="bold">namenode</emphasis>.<programlisting>[pivhdsne:init.d]$ <emphasis role="bold">service hadoop-hdfs-namenode status</emphasis>
+namenode (pid  3410) is running...
+[pivhdsne:init.d]$ </programlisting></para>
+              </listitem>
+              <listitem>
+                <para>Another method is to simply execute the script for the service of interest
+                  with the status
+                  command.<programlisting>[pivhdsne:init.d]$ <emphasis role="bold">./hadoop-hdfs-namenode status</emphasis>
+namenode (pid  3410) is running...
+[pivhdsne:init.d]$ </programlisting></para>
+              </listitem>
+              <listitem>
+                <para>Another method of displaying the currently running
+                    <application>Hadoop</application> services is to use the <application>Java
+                    Virtual Machine Process Status Tool</application> or <command>jps</command>
+                  command.<programlisting>[pivhdsne:~]$ <emphasis role="bold">jps</emphasis>
+9838 Jps
+2291 start.jar
+2229 Launcher
+[pivhdsne:~]$ </programlisting></para>
+                <para>Here you see all of the running process that you have permissions to
+                  view.</para>
+                <para>Run the jps command with
+                  sudo<programlisting>[pivhdsne:~]$ <emphasis role="bold">sudo /usr/java/jdk1.7.0_45/bin/jps
+</emphasis>4976 NodeManager
+4400 Bootstrap
+3313 QuorumPeerMain
+4224 HRegionServer
+5222 JobHistoryServer
+4015 HMaster
+2291 start.jar
+9933 Jps
+2229 Launcher
+5662 Bootstrap
+4591 ResourceManager
+5540 RunJar
+3785 DataNode
+5408 RunJar
+5713 Application
+3651 SecondaryNameNode
+3410 NameNode
+[pivhdsne:~]$ </programlisting></para>
+                <para>Notice that all running <application>Hadoop</application> services are
+                  displayed!! In this list those <application>Hadoop</application> sercies are:
+                  NodeManager, QuorumPeerMain, HRegionServer, JobHistoryServer, HMaster,
+                  ResourceManager, DataNode, SecondaryNameNode and NameNode.</para>
+                <para>Ask your instructor if you have any questions about any of the
+                    <application>Hadoop</application> processes listed.</para>
+              </listitem>
+            </orderedlist></para>
+        </listitem>
       </orderedlist>
     </section>
   </section>
@@ -314,49 +396,71 @@
   </section>
   <section>
     <title>Exploring the Hadoop Installation</title>
-    <para><?oxy_custom_start type="oxy_content_highlight" color="255,60,255"?>The remainder of this
-      lab exercise involves working with a local instance of a Hadoop distribution. The goal is to
-      enable you to gain experience with how to install and configure a distribution. An important
-      point to keep in mind is that there is a Hadoop cluster that will be used for later labs. For
-      this lab, we won't be using that Hadoop cluster. Instead, each student will be setting up
-      their own Hadoop installation. For that reason, we will make some temporary changes to ensure
-      that the correct (lab-specific) version of Hadoop is used for this lab.</para>
-    <para>Launch the file explorer using the icon on the desktop and navigate to the
-        <filename>~/labs/HadoopOverview</filename> folder. There should be a folder there called
-        <filename>hadoop-2.6.0</filename> if the script you ran earlier completed successfully.
-      Expand this folder and also the folders labeled <filename>etc</filename> and
-        <filename>hadoop</filename> under it
-        (<filename>~labs/HadoopOverview/hadoop-2.6.0/etc/hadoop</filename>). This is where all the
-      configuration files for Hadoop are kept.</para>
-    <tip>
-      <para>If you are more comfortable working from the command line, you can select the terminal
-        icon from the top menu bar and use the terminal to perform your navigation.</para>
-    </tip>
-    <para>Locate several key files for configuring Hadoop such <filename>core-site.xml</filename>,
-        <filename>mapred-site.xml,</filename><filename>hdfs-site.xml</filename> and
-        <filename>hadoop-env.sh</filename>. Take a moment to open each of these. </para>
-    <tip>
-      <para>If you prefer using the graphical approach, right mouse click on one of the XML files
-        and select <literal>Open with gedit</literal>.</para>
-    </tip>
-    <para>Note that most are empty because the current configuration is set up in standalone mode.
-      As a result, no Hadoop services will run and all Hadoop processing will be run in-memory in a
-      single Java process.</para>
-    <para>
-      <note>
-        <para>There are many additional concepts we could explore such as MapReduce programming,
-          local Yarn resource management, and others. However, these are beyond the intent and focus
-          of the course.<?oxy_custom_end?></para>
-      </note>
-    </para>
+    <para>The remainder of this lab exercise involves your instance of the Pivotal HD distribution.
+      The goal is to enable you to gain experience with how find desired configuration files and
+      identify configuration items of
+      interest.<?oxy_custom_start type="oxy_content_highlight" color="255,60,255"?></para>
+    <para><?oxy_custom_end?>Launch the file explorer using the icon on the desktop and navigate to
+      the <filename>/etc/gphd/hadoop/conf</filename> directory. <figure>
+        <title>Hadoop Conf</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/hadoop_conf.png" scalefit="1"/>
+          </imageobject>
+        </mediaobject>
+      </figure> For those more comfortable with the command line you can list the contents of
+        <filename>/etc/gphd/hadoop/conf</filename>.<programlisting>[pivhdsne:conf]$ <emphasis role="bold">ls</emphasis>
+capacity-scheduler.xml          hadoop-policy.xml               postex_diagnosis_tests.xml
+container-executor.cfg          hdfs-site.xml                   slaves
+core-site.xml                   log4j.properties                ssl-client.xml.example
+dfs.exclude                     mapred-env.cmd                  ssl-server.xml.example
+hadoop-env.cmd                  mapred-env.sh                   yarn-env.cmd
+hadoop-env.sh                   mapred-queues.xml               yarn-env.sh
+hadoop-metrics2.properties      mapred-queues.xml.template      yarn.exclude
+hadoop-metrics.properties       mapred-site.xml                 yarn-site.xml</programlisting></para>
+    <para>Note that there are several *-env.sh files. These files are used to set values for
+      environment variables for the respective services. These variables might specify heapsize or
+      log directoryies.</para>
+    <para>There are several *-site.xml files, specifically core-site.xml, hdfs-site.xml,
+      mapred-site.xml and yarn-site.xml. These files contain overrides to the default Hadoop
+      configuration settings.</para>
+    <para>Please review the content of hadoop-env.sh, core-site.xml,  hdfs-site.xml, mapred-site.xml
+      and yarn-site.xml and answer the following questions for this installation:<orderedlist>
+        <listitem>
+          <para>How frequently is the trash emptied? What configuration file did you find that
+            in?</para>
+        </listitem>
+        <listitem>
+          <para>What MapReduce framework is configured?  What configuration file did you find that
+            in?</para>
+        </listitem>
+        <listitem>
+          <para>What is the NameNode HeapSize? What configuration file did you find that in?</para>
+        </listitem>
+        <listitem>
+          <para>What is the HDFS replication factor set to? What configuration file did you find
+            that in?</para>
+        </listitem>
+        <listitem>
+          <para>How long are Yarn NodeManager logs retained? What configuration file did you find
+            that in?</para>
+        </listitem>
+        <listitem>
+          <para>What is the HeapSize for the Job HistoryServer? What configuration file did you find
+            that in?</para>
+        </listitem>
+        <listitem>
+          <para>What is the maximum value for the Java Heap? What configuration file did you find
+            that in?</para>
+        </listitem>
+      </orderedlist></para>
   </section>
     <section>
-      <title> Basic <application>Hadoop</application> Commands </title>
+    <title> Basic <application>Hadoop</application> Commands </title>
     <section>
       <title> Basics of Hadoop</title>
       <para>There are two distinct environments to navigate in the VM: </para>
-      <orderedlist
-        numeration="loweralpha">
+      <orderedlist numeration="loweralpha">
         <listitem>
           <para><emphasis role="bold">Local</emphasis>: The <application>CentOS</application>
             operating system running inside the VM. Basic <application>Linux</application> terminal
@@ -364,40 +468,35 @@
             the <application>CentOS</application> file system within the VM. </para>
         </listitem>
         <listitem>
-          <para>Hadoop Distributed File System (<emphasis
-              role="bold">HDFS</emphasis>) </para>
+          <para>Hadoop Distributed File System (<emphasis role="bold">HDFS</emphasis>) </para>
         </listitem>
       </orderedlist>
       <para>The HDFS environment is navigated from the terminal command line only. HDFS commands
         have the form: </para>
-      <para><emphasis
-          role="bold"> hadoop fs : this lists the commands you can perform with the hadoop
-          filesystem (fs)</emphasis>
+      <para><emphasis role="bold"> hadoop fs : this lists the commands you can perform with the
+          hadoop filesystem (fs)</emphasis>
       </para>
-      <para><emphasis
-          role="bold">hadoop fs –help : to list description of commands </emphasis></para>
-      <para><emphasis
-          role="bold">hadoop fs –help command : this lists the help screen for a specific
-          command</emphasis></para>
-      <para><emphasis
-          role="bold">hadoop fs –command </emphasis>
+      <para><emphasis role="bold">hadoop fs –help : to list description of commands
+        </emphasis></para>
+      <para><emphasis role="bold">hadoop fs –help command : this lists the help screen for a
+          specific command</emphasis></para>
+      <para><emphasis role="bold">hadoop fs –command </emphasis>
       </para>
-      <para><emphasis
-          role="bold">hadoop fs –ls &lt;absolute path&gt; : list files in dir specified by the
-          &lt;aboslute path&gt;</emphasis>
+      <para><emphasis role="bold">hadoop fs –ls &lt;absolute path&gt; : list files in dir specified
+          by the &lt;aboslute path&gt;</emphasis>
       </para>
-      <para><emphasis
-          role="bold">Note there is no cd (change directory) command for HDFS navigation.</emphasis>
+      <para><emphasis role="bold">Note there is no cd (change directory) command for HDFS
+          navigation.</emphasis>
       </para>
     </section>
-      <section>
+    <section>
       <title>Hadoop and HDFS commands</title>
       <?oxy_custom_start type="oxy_content_highlight" color="255,60,255"?>
-      <para><?oxy_custom_end?>To manage and access data stored in <emphasis role="bold">HDFS</emphasis> you will
-        use the Hadoop File System Shell commands. the <command>hadoop fs</command> commands are
-        executed from the <application>Linux</application> command line. Most of the <command>hadoop
-          fs</command> commands are similar, if not identical, to the equivalent
-          <application>Linux</application> commands that you are already familiar
+      <para><?oxy_custom_end?>To manage and access data stored in <emphasis role="bold"
+          >HDFS</emphasis> you will use the Hadoop File System Shell commands. the <command>hadoop
+          fs</command> commands are executed from the <application>Linux</application> command line.
+        Most of the <command>hadoop fs</command> commands are similar, if not identical, to the
+        equivalent <application>Linux</application> commands that you are already familiar
         with.<?oxy_custom_start type="oxy_content_highlight" color="255,60,255"?></para>
       <?oxy_custom_end?>
       <orderedlist>
@@ -512,27 +611,10 @@ drwxr-xr-x   - mapred  hadoop          0 2014-08-24 11:55 /mapred
 drwxrwxrwx   - hdfs    hadoop          0 2014-08-24 11:55 /tmp
 drwxrwxrwx   - hdfs    hadoop          0 2014-08-24 12:10 /user
 drwxr-xr-x   - hdfs    hadoop          0 2014-08-24 11:56 /yarn </programlisting>
-          <para>All <emphasis role="bold"><application>HAWQ</application></emphasis> data will be
-            stored in the <filename>/hawq_data</filename> directory structure.</para>
-        </listitem>
-        <listitem>
-          <para>List the structure of the <filename>/hawq_data</filename> directory.</para>
-          <programlisting>[pivhdsne:~]$ <emphasis role="bold">hadoop fs -ls /hawq_data</emphasis>
-Found 1 items
-<emphasis role="bold">drwx------   - gpadmin hadoop          0 2014-08-24 12:02 /hawq_data/gpseg0</emphasis></programlisting>
-          <para>Note that <filename>/hawq_data</filename> directory contains but one directory. The
-            name of the directory is <filename>gpseg0</filename>. This indicates to you that the
-              <application>VM</application> has  one <emphasis role="bold"
-                ><application>HAWQ</application></emphasis> segment. This means that all <emphasis
-              role="bold"><application>HAWQ</application></emphasis> data will be stored on one
-            segment. Queries run against the data on the single segment will fail to achieve the
-              <literal>Massive Parallel Processing</literal> ( <emphasis role="bold">MPP</emphasis>
-            ) capabilities of <emphasis role="bold"><application>HAWQ</application></emphasis>. Much
-            more on this in following lab exercises.</para>
         </listitem>
       </orderedlist>
     </section>
-    </section>
+  </section>
     <section>
       <title>Load The Retail Data Set Into HDFS</title>
       <para>The VM contains the retail data set in the local
