@@ -8,8 +8,7 @@
       suited to your experience and interest and complete the assigned tasks.</para>
   </section>
   <section>
-    <title><inlinegraphic fileref="images/analyst_icon.jpg" format="JPEG" width="20mm"/> Data
-      Analyst Track</title>
+    <title> HDFS</title>
     <section>
       <title>Introduction</title>
       <para>In this lab, you will become familiar with HDFS. Specifically, you will gain experience
@@ -27,30 +26,32 @@
         </listitem>
       </orderedlist>
       <para>Estimated time to complete: 30 minutes</para>
-      <note>
-        <para><emphasis>IMPORTANT</emphasis>: The Hadoop services must be running in order to
-          complete this exercise. To check, point a web browser to the namenode (http://phd2:50070).
-          If you do not get a web page that shows that you have connected to 'phd2.pivotal.io:8020
-          (active)', ask your instructor to check to see if the NameNode services are runng. If not,
-          your instructor should start the HDFS services. </para>
-      </note>
     </section>
     <section>
       <title>Instructions</title>
-      <para>In this lab, you will perform 4 basic tasks. To begin, open a terminal window using the
-        terminal icon on the launch bar at the top of the VM window.</para>
+      <para>To begin, open a terminal window using the terminal icon on the launch bar at the top of
+        the VM window.</para>
       <mediaobject>
         <imageobject>
-          <imagedata fileref="images/vm_terminal_launch.jpg" format="JPG" depth="100mm"
-            width="100mm"/>
+          <imagedata fileref="images/vm_terminal_launch.jpg" format="JPG" depth="100mm" width="100mm"/>
         </imageobject>
       </mediaobject>
       <para>Change directories to <filename>~/data</filename> folder. You will perform the following
         tasks from this folder.</para>
       <section>
-        <title>Inspect the current contents of HDFS</title>
+        <title>Inspect the Current Contents of HDFS</title>
         <para>First, use the File System shell commands to list the contents of the HDFS filesystem
-          and attempt to answer the following questions.</para>
+          and attempt to answer the following
+          questions.<programlisting>[pivhdsne:data]$ <emphasis role="bold">hadoop fs -ls /</emphasis>
+Found 7 items
+drwxr-xr-x   - hdfs    hadoop          0 2014-08-24 11:54 /apps
+drwxr-xr-x   - gpadmin hadoop          0 2014-08-24 12:02 /hawq_data
+drwxr-xr-x   - hdfs    hadoop          0 2014-08-24 11:56 /hive
+drwxr-xr-x   - mapred  hadoop          0 2014-08-24 11:55 /mapred
+drwxrwxrwx   - hdfs    hadoop          0 2015-01-09 08:48 /tmp
+drwxrwxrwx   - hdfs    hadoop          0 2014-08-24 12:10 /user
+drwxr-xr-x   - hdfs    hadoop          0 2014-08-24 11:56 /yarn
+[pivhdsne:~]$ </programlisting></para>
         <orderedlist>
           <listitem>
             <para>How many folders are at the root of the HDFS file system?</para>
@@ -68,20 +69,15 @@
                 &apos;x&apos; means it can be executed and &apos;-&apos; means no permission. The
                 following listing includes a description for what the various fields
                 represent.</para>
-              <programlisting>Permissions    Owner   Group          Size Date Modified        Name
-drwxr-xr-x   - hdfs    hadoop         0   2013-11-04 18:45     /apps
-drwxr-xr-x   - gpadmin hadoop         0   2014-03-08 06:36     /data
-drwxr-xr-x   - gpadmin hadoop         0   2013-11-05 02:21     /hawq_data</programlisting>
             </tip>
           </listitem>
           <listitem>
-            <para>What are the contents of your user folder?</para>
+            <para>What are the contents of your user
+              folder?<programlisting>[pivhdsne:data]$ <emphasis role="bold">hadoop fs -ls /user/gpadmin
+</emphasis>Found 1 items
+drwx------   - gpadmin hadoop          0 2015-01-11 07:27 /user/gpadmin/.staging
+[pivhdsne:~]$ </programlisting></para>
             <tip>
-              <para>You&apos;ll need to look under <filename>/user/gpadmin</filename>, the user that
-                you are logged in as. For example, your command might look like this:</para>
-              <para>
-                <programlisting>hdfs dfs -ls /user/gpadmin</programlisting>
-              </para>
               <para>This is your home directory in HDFS and it is much like your home directory in
                 Unix (usually found under <filename>/home/&lt;username></filename>)</para>
             </tip>
@@ -89,62 +85,173 @@ drwxr-xr-x   - gpadmin hadoop         0   2013-11-05 02:21     /hawq_data</progr
         </orderedlist>
       </section>
       <section>
-        <title>Copy a file into HDFS</title>
+        <title>Copy a File into HDFS</title>
         <para>Perform the following:</para>
         <orderedlist>
           <listitem>
             <para>Use the HDFS File System shell to create a directory called
-                <filename>lab3</filename> into your user directory on HDFS.</para>
+                <filename>lab3</filename> into your user directory on HDFS and confirm that the
+              directory was created
+              successfully.<programlisting>[pivhdsne:data]$ <emphasis role="bold">hadoop fs -mkdir lab3</emphasis>
+[pivhdsne:data]$ <emphasis role="bold">hadoop fs -ls</emphasis>
+Found 2 items
+drwx------   - gpadmin hadoop          0 2015-01-11 07:27 .staging
+drwxr-xr-x   - gpadmin hadoop          0 2015-10-09 06:41 lab3
+[pivhdsne:data]$</programlisting></para>
+            <para>The default behavior of HDFS is to create a directory in your HOME directory
+              unless otherwise specified. As such the commands: <emphasis role="bold">hadoop fs
+                -mkdir lab3 </emphasis>and <emphasis role="bold">hadoop fs -mkdir
+                /user/gpadmin/lab3</emphasis> are equivalent!!</para>
           </listitem>
           <listitem>
-            <para>Use the HDFS File System shell commands to copy or put the local file
-                <filename>sample_rewards_submission_log.txt</filename> into the directory you just
-              created on HDFS in step 1.</para>
+            <para>Use the HDFS File System shell to copy or put the local file
+                <filename>~/sample_rewards_submission_log.txt</filename> into the
+                <filename>lab3</filename> directory you just
+              created.<programlisting>[pivhdsne:data]$ <emphasis role="bold">hadoop fs -put sample_rewards_submission_log.txt lab3</emphasis>
+[pivhdsne:data]$ </programlisting></para>
           </listitem>
           <listitem>
-            <para>Use the File System shell commands to verify the file is in the
-                <filename>lab3</filename> directory on HDFS. </para>
+            <para>Use the File System shell to verify that
+                <filename>sample_rewards_submission_log.txt</filename> was stored in the
+              <filename>lab3</filename> directory on <emphasis role="bold">HDFS</emphasis>.
+              <programlisting>[pivhdsne:data]$ <emphasis role="bold">hadoop fs -ls lab3</emphasis>
+Found 1 items
+-rw-r--r--   3 gpadmin hadoop       1061 2015-10-09 06:48 lab3/sample_rewards_submission_log.txt
+[pivhdsne:data]$</programlisting></para>
           </listitem>
           <listitem>
-            <para>Open the FireFox browser and locate the tab that has the NameNode information on
-              it. Take a moment to browse around the page reviewing the information provided
-              there.</para>
-            <para>Use &apos;Utilities ▶ Browse the filesystem&apos; link to browse to your HDFS user
-              directory. Locate the file you recently copied in.</para>
+            <para>Use the File System shell to display the <emphasis role="bold">HDFS</emphasis>
+              file <filename>sample_rewards_submission_log.txt</filename> in your <emphasis role="bold">lab3</emphasis>
+              directory.<programlisting>[pivhdsne:data]$ <emphasis role="bold">hadoop fs -cat lab3/sample_rewards_submission_log.txt</emphasis>
+12509580-90a9-11e2-9e96-0800200c9a66	2013-03-01 08:00:15	1234123412340001	1234567890	100.09    USD	100100670
+12509581-90a9-11e2-9e96-0800200c9a66	2013-03-01 08:40:22	1234123412340002	1234567891	1,120.59  USD	100100671
+1250bc90-90a9-11e2-9e96-0800200c9a66	2013-03-01 10:20:15	1234123412340004	1234567893	161.59    USD	100100672
+1250bc91-90a9-11e2-9e96-0800200c9a66	2013-03-01 10:20:15	1234123412340008	1234567897	3.59      USD	100100673
+1250bc92-90a9-11e2-9e96-0800200c9a66	2013-03-01 10:20:15	1234123412340001	1234567899	284.59    GBP	100100674
+1250bc93-90a9-11e2-9e96-0800200c9a66	2013-03-02 10:00:00	1234123412340002	1234567900	305.09    GBP	100100675
+1250bc94-90a9-11e2-9e96-0800200c9a66	2013-03-02 08:00:15	1234123412340003	1234567901	25.59     EUR	100100676
+1250bc95-90a9-11e2-9e96-0800200c9a66	2013-03-02 09:10:33	1234123412340005	1234567903	2,366.59  GBP	100100677
+1250bc96-90a9-11e2-9e96-0800200c9a66	2013-03-02 10:20:15	1234123412340009	1234567907	448.59    USD	100100678
+1250bc97-90a9-11e2-9e96-0800200c9a66	2013-03-02 11:00:00	1234123412340010	1234567908	469.09    USD	100100679
+[pivhdsne:data]$ </programlisting></para>
+          </listitem>
+          <listitem>
+            <para>Return to the FireFox browser and display the page that has the NameNode
+              information on it. Take a moment to browse around the page reviewing the information
+              provided there.</para>
+            <para>
+              <figure>
+                <title>NameNode</title>
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/namenode-web.png"/>
+                  </imageobject>
+                </mediaobject>
+              </figure>
+            </para>
+            <para>Use 'Browse the filesystem' link to traverse your HDFS user directory all the way
+              to the  <filename>lab3</filename> directory in your user directory.</para>
+            <para>The full path to traverse is <filename>/user/gpadmin/lab3</filename>.</para>
+            <para>
+              <figure>
+                <title>lab3 Directory</title>
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/lab3-dir.png"/>
+                  </imageobject>
+                </mediaobject>
+              </figure>
+            </para>
             <itemizedlist>
               <listitem>
-                <para>What is the block size of the file? </para>
+                <para>What is the block size of the file? ________________</para>
               </listitem>
               <listitem>
-                <para>How many blocks will be used to store the file data?</para>
+                <para>How many blocks will be used to store the file data? _______________</para>
               </listitem>
-            </itemizedlist>
+            </itemizedlist> <para>Select the  <filename>sample_rewards_submission_log.txt</filename> link to display
+            information about the  <filename>sample_rewards_submission_log.txt</filename>
+            file.</para>
           </listitem>
+          <para>
+            <figure>
+              <title>Sample-Rewards</title>
+              <mediaobject>
+                <imageobject>
+                  <imagedata fileref="images/sample-rewards.png"/>
+                </imageobject>
+              </mediaobject>
+            </figure>
+          </para>
+          <para>Note that this page indicates that the Total Number of blocks for this file is 1.
+            However the previous screen shows replication to be 3. Why the discrepancy?</para>
         </orderedlist>
+        
       </section>
       <section>
-        <title>Manipulate a file in HDFS</title>
+        <title>Manipulate a File in HDFS</title>
         <para>Use the File System shell command to manipulate the file you put into HDFS.</para>
         <orderedlist>
           <listitem>
-            <para>Inspect the contents of the file. What are some different ways to do this?</para>
-          </listitem>
-          <listitem>
             <para>Use the shell commands to change the security permissions on the file so that any
-              user or group can read or write the file.</para>
+              user or group can read or write the file and confirm that the permissions were
+              successfully changed.</para>
             <tip>
               <para>The numeric code that sets the permission (mode) to allow all users and groups
                 to read and write is 666.</para>
             </tip>
+            <programlisting>[pivhdsne:data]$ <emphasis role="bold">hadoop fs -chmod 666 lab3/sample_rewards_submission_log.txt</emphasis>
+[pivhdsne:data]$ <emphasis role="bold">hadoop fs -ls lab3</emphasis>
+Found 1 items
+-rw-rw-rw-   3 gpadmin hadoop       1061 2015-10-09 06:48 lab3/sample_rewards_submission_log.txt
+[pivhdsne:data]$ </programlisting>
           </listitem>
         </orderedlist>
       </section>
       <section>
-        <title>Remove a file from HDFS</title>
-        <para>Finally, in the last step, use the HDFS shell commands to remove the file you copied
-          in. As a last step, verify that the file has successfully been removed from your
-            <filename>lab3</filename> folder on HDFS.</para>
-        <para>Contratulations!! You have completed this lab.</para>
+        <title>Remove a Directory and File from HDFS</title>
+        <para>
+          <orderedlist>
+            <listitem>
+              <para>Use the File System shell command to remove the <filename>lab3</filename>
+                directory and the <filename>sample_rewards_submission_log.txt</filename> file from
+                  <emphasis role="bold">HDFS</emphasis>. Confirm that the directory and file have
+                been deleted from your HDFS home directory.<tip>
+                  <para>Deleting the directory, <filename>lab3</filename> in this instance, will of
+                    course delete the directory as well as the contents of the directory. Should you
+                    want the directory to persist simply delete the file from the directory
+                    directly.</para>
+                </tip></para>
+              <para>
+                <programlisting>[pivhdsne:data]$ <emphasis role="bold">hadoop fs -rm -R lab3</emphasis>
+15/10/09 07:28:50 INFO fs.TrashPolicyDefault: Namenode trash configuration: Deletion interval = 86400000 minutes, Emptier interval = 0 minutes.
+<emphasis role="bold">Moved: 'hdfs://pivhdsne.localdomain:8020/user/gpadmin/lab3' to trash at: hdfs://pivhdsne.localdomain:8020/user/gpadmin/.Trash/Current</emphasis>
+[pivhdsne:~]$ <emphasis role="bold">hadoop fs -ls /user/gpadmin</emphasis>
+Found 2 items
+drwx------   - gpadmin hadoop          0 2015-10-09 10:23 /user/gpadmin/.Trash</programlisting>
+              </para>
+              <para>Notice that the output of this command indicates that the directory, and by
+                inclusion, the file were moved and not deleted. They were moved to
+                  <filename>/user/gpadmin/.Trash/Current</filename> and will remain there for
+                whatever the duration of the <emphasis role="bold">Deletion interval</emphasis> is.
+                Recall that you searched for and found the configuration item for <emphasis
+                  role="bold">fs.trash.interval</emphasis> in the <filename>core-site.xml</filename>
+                file in a previous lab exercise.</para>
+              <para>List the contents of <filename>/user/gpadmin/.Trash/Current</filename> using the
+                  <command>-R</command> ( recursive ) option for the File System
+                  <command>-ls</command>
+                command.<programlisting>[pivhdsne:data]$ <emphasis role="bold">hadoop fs -ls -R /user/gpadmin/.Trash/Current</emphasis>
+drwx------   - gpadmin hadoop          0 2015-10-09 07:28 /user/gpadmin/.Trash/Current/user
+drwx------   - gpadmin hadoop          0 2015-10-09 07:28 /user/gpadmin/.Trash/Current/user/gpadmin
+drwxr-xr-x   - gpadmin hadoop          0 2015-10-09 06:48 /user/gpadmin/.Trash/Current/user/gpadmin/lab3
+-rw-rw-rw-   3 gpadmin hadoop       1061 2015-10-09 06:48 /user/gpadmin/.Trash/Current/user/gpadmin/lab3/sample_rewards_submission_log.txt
+[pivhdsne:data]$ </programlisting></para>
+              <para>You see that the <filename>sample_rewards_submission_log.txt</filename> file is
+                indeed in the <emphasis role="bold">TRASH</emphasis>.  You could recover this file
+                by moving ( <command>hadoop fs -mv</command> ) it from <emphasis role="bold">TRASH</emphasis> to a directory of choice. Remember to do so before the <emphasis role="bold">Deletion interval</emphasis> expires.</para>
+            </listitem>
+          </orderedlist>
+        </para>
       </section>
     </section>
   </section>

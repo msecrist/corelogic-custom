@@ -427,31 +427,32 @@ hadoop-metrics.properties       mapred-site.xml                 yarn-site.xml</p
     <para>Please review the content of hadoop-env.sh, core-site.xml,  hdfs-site.xml, mapred-site.xml
       and yarn-site.xml and answer the following questions for this installation:<orderedlist>
         <listitem>
-          <para>How frequently is the trash emptied? What configuration file did you find that
-            in?</para>
+          <para>How frequently is the trash emptied? _______________ What configuration file did you
+            find that in? _______________</para>
         </listitem>
         <listitem>
-          <para>What MapReduce framework is configured?  What configuration file did you find that
-            in?</para>
+          <para>What MapReduce framework is configured? _______________ What configuration file did
+            you find that in? _______________</para>
         </listitem>
         <listitem>
-          <para>What is the NameNode HeapSize? What configuration file did you find that in?</para>
+          <para>What is the NameNode HeapSize? _______________ What configuration file did you find
+            that in? _______________</para>
         </listitem>
         <listitem>
-          <para>What is the HDFS replication factor set to? What configuration file did you find
-            that in?</para>
+          <para>What is the HDFS replication factor set to? _______________ What configuration file
+            did you find that in? _______________</para>
         </listitem>
         <listitem>
-          <para>How long are Yarn NodeManager logs retained? What configuration file did you find
-            that in?</para>
+          <para>How long are Yarn NodeManager logs retained? _______________ What configuration file
+            did you find that in? _______________</para>
         </listitem>
         <listitem>
-          <para>What is the HeapSize for the Job HistoryServer? What configuration file did you find
-            that in?</para>
+          <para>What is the HeapSize for the Job HistoryServer? _______________ What configuration
+            file did you find that in? _______________</para>
         </listitem>
         <listitem>
-          <para>What is the maximum value for the Java Heap? What configuration file did you find
-            that in?</para>
+          <para>What is the maximum value for the Java Heap? _______________ What configuration file
+            did you find that in? _______________</para>
         </listitem>
       </orderedlist></para>
   </section>
